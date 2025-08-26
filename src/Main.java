@@ -12,7 +12,7 @@ public class Main {
         int menuOption;
 
         do {
-            System.out.println("\nEscolha uma opção:\n1 - Cadastrar usuário\n2 - Fazer login\n3 - Adicionar conta bancária\n4 - Exibir informações da Conta Bancária\n0 - Sair");
+            System.out.println("\nEscolha uma opção:\n1 - Cadastrar usuário\n2 - Fazer login\n3 - Adicionar conta bancária\n4 - Exibir informações do usuário\n5 - Exibir informações da Conta Bancária\n0 - Sair");
             menuOption = scanner.nextInt();
 
             switch (menuOption) {
@@ -49,6 +49,9 @@ public class Main {
                     bankAccount = new BankAccount(user, branch, bankAccountNumber);
                     break;
                 case 4:
+                    user.displayUser();
+                    break;
+                case 5:
                     bankAccount.displayBankAccount();
                     break;
                 case 0:
