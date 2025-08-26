@@ -20,6 +20,7 @@ public class Login {
 
     public void doLogin(String email, String password) {
         if (email.equals(user.email) && password.equals(user.password)) {
+            user.logged = true;
             System.out.println("\nLogin feito com sucesso!");
         } else {
             System.out.println("\nCredencias inválidas");

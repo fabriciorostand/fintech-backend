@@ -3,12 +3,14 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
         User user = new User();
+        BankAccount bankAccount = new BankAccount();
 
         int menuOption;
 
         do {
-            System.out.println("\nEscolha uma opção:\n1 - Cadastrar usuário\n2 - Fazer login\n0 - Sair");
+            System.out.println("\nEscolha uma opção:\n1 - Cadastrar usuário\n2 - Fazer login\n3 - Adicionar conta bancária\n4 - Exibir informações da Conta Bancária\n0 - Sair");
             menuOption = scanner.nextInt();
 
             switch (menuOption) {
@@ -28,6 +30,24 @@ public class Main {
 
                     Login login = new Login(user);
                     login.doLogin(email, password);
+                    break;
+                case 3:
+                    System.out.println("\nNome do banco: ");
+                    String bankName = scanner.next() + scanner.nextLine();
+                    System.out.println("Número do banco:");
+                    int bankNumber = scanner.nextInt();
+                    Bank bank = new Bank(bankName, bankNumber);
+
+                    System.out.println("Número da agência:");
+                    int branchNumber = scanner.nextInt();
+                    Branch branch = new Branch(bank, branchNumber);
+
+                    System.out.println("Número da conta bancária:");
+                    int bankAccountNumber = scanner.nextInt();
+                    bankAccount = new BankAccount(user, branch, bankAccountNumber);
+                    break;
+                case 4:
+                    bankAccount.displayBankAccount();
                     break;
                 case 0:
                     System.out.println("\nFinalizando o programa...");
