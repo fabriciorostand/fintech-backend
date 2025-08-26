@@ -1,13 +1,11 @@
 package br.com.fiap.fintech.model;
 
-import java.math.BigDecimal;
-
 public class BankAccount {
     int id;
     User user;
     Branch branch;
     int number;
-    BigDecimal balance;
+    double balance = 2000;
 
     public BankAccount() {
 
@@ -19,12 +17,22 @@ public class BankAccount {
         this.number = number;
     }
 
-    public BankAccount(int id, User user, Branch branch, int number, BigDecimal balance) {
+    public BankAccount(int id, User user, Branch branch, int number, double balance) {
         this.id = id;
         this.user = user;
         this.branch = branch;
         this.number = number;
         this.balance = balance;
+    }
+
+    public double makeTransaction(Transaction transaction) {
+        if (transaction.type.name.equals("Receita")) {
+            return balance += transaction.value;
+        }
+        if (transaction.type.name.equals("Despesa")) {
+            return balance -= transaction.value;
+        }
+        return balance;
     }
 
     public void displayBankAccount() {
@@ -34,6 +42,6 @@ public class BankAccount {
     }
 
     public void checkBalance() {
-        System.out.println("Consultando saldo...");
+        System.out.println("\nSaldo: " + balance);
     }
 }

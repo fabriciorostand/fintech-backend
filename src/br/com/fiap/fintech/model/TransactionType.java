@@ -1,8 +1,8 @@
 package br.com.fiap.fintech.model;
 
 public class TransactionType {
-    int id;
-    String name;
+    public int id;
+    public String name;
 
     public TransactionType() {
 
@@ -11,5 +11,9 @@ public class TransactionType {
     public TransactionType(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public void displayTransactionType() {
+        System.out.println("\nTipo: " + name);
     }
 }

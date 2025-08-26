@@ -1,6 +1,8 @@
 import br.com.fiap.fintech.model.*;
 
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,11 +10,14 @@ public class Main {
 
         User user = new User();
         BankAccount bankAccount = new BankAccount();
+        Transaction transaction = new Transaction();
+        TransactionType transactionType = new TransactionType();
+        Category category = new Category();
 
         int menuOption;
 
         do {
-            System.out.println("\nEscolha uma opção:\n1 - Cadastrar usuário\n2 - Fazer login\n3 - Adicionar conta bancária\n4 - Exibir informações do usuário\n5 - Exibir informações da Conta Bancária\n0 - Sair");
+            System.out.println("\nEscolha uma opção:\n1 - Cadastrar usuário\n2 - Fazer login\n3 - Adicionar Conta Bancária\n4 - Fazer um Lançamento\n5 - Consultar saldo\n6 - Exibir informações do usuário\n7 - Exibir informações da Conta Bancária\n8 - Exibir Extrato (Último Lançamento)\n0 - Sair");
             menuOption = scanner.nextInt();
 
             switch (menuOption) {
@@ -49,10 +54,42 @@ public class Main {
                     bankAccount = new BankAccount(user, branch, bankAccountNumber);
                     break;
                 case 4:
-                    user.displayUser();
+                    System.out.println("\nTipo do Lançamento (Receita/Despesa): ");
+                    transactionType.name = scanner.next() + scanner.nextLine();
+
+                    System.out.println("Categoria do Lançamento (Ex. Alimentação): ");
+                    category.name = scanner.nextLine();
+
+                    System.out.println("Nome do Lançamento: ");
+                    transaction.name = scanner.nextLine();
+
+                    System.out.println("Data (dd/mm/aaaa): ");
+                    String dateStr = scanner.nextLine();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    transaction.date = LocalDate.parse(dateStr, formatter);
+
+                    System.out.println("Valor: ");
+                    transaction.value = scanner.nextDouble();
+
+                    System.out.println("Descrição: ");
+                    transaction.description = scanner.next() + scanner.nextLine();
+
+                    transaction.type = transactionType;
+                    transaction.category = category;
+
+                    bankAccount.makeTransaction(transaction);
                     break;
                 case 5:
+                    bankAccount.checkBalance();
+                    break;
+                case 6:
+                    user.displayUser();
+                    break;
+                case 7:
                     bankAccount.displayBankAccount();
+                    break;
+                case 8:
+                    transaction.displayLastTransaction();
                     break;
                 case 0:
                     System.out.println("\nFinalizando o programa...");
