@@ -1,15 +1,40 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner scanner = new Scanner(System.in);
+        User user = new User();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        int menuOption;
+
+        do {
+            System.out.println("\nEscolha uma opção:\n1 - Cadastrar usuário\n2 - Fazer login\n0 - Sair");
+            menuOption = scanner.nextInt();
+
+            switch (menuOption) {
+                case 1:
+                    System.out.println("Nome:");
+                    user.name = scanner.next() + scanner.nextLine();
+                    System.out.println("E-mail:");
+                    user.email = scanner.nextLine();
+                    System.out.println("Senha:");
+                    user.password = scanner.nextLine();
+                    break;
+                case 2:
+                    System.out.println("\nE-mail: ");
+                    String email = scanner.next() + scanner.nextLine();
+                    System.out.println("Senha: ");
+                    String password = scanner.nextLine();
+
+                    Login login = new Login(user);
+                    login.doLogin(email, password);
+                    break;
+                case 0:
+                    System.out.println("\nFinalizando o programa...");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while (menuOption != 0);
     }
 }
