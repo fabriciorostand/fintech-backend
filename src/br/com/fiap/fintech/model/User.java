@@ -1,9 +1,11 @@
+package br.com.fiap.fintech.model;
+
 public class User {
-    private int id;
-    String name;
-    String email;
-    String password;
-    boolean logged = false;
+    public int id;
+    public String name;
+    public String email;
+    public String password;
+    public boolean logged = false;
 
     public User() {
 

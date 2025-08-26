@@ -1,3 +1,5 @@
+package br.com.fiap.fintech.model;
+
 import java.math.BigDecimal;
 
 public class BankAccount {

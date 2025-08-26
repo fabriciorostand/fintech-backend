@@ -1,3 +1,5 @@
+import br.com.fiap.fintech.model.*;
+
 import java.util.Scanner;
 
 public class Main {

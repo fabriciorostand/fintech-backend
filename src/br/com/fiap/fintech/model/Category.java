@@ -1,3 +1,5 @@
+package br.com.fiap.fintech.model;
+
 public class Category {
     int id;
     String name;
