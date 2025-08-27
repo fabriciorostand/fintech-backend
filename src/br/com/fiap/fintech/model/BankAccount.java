@@ -1,11 +1,11 @@
 package br.com.fiap.fintech.model;
 
 public class BankAccount {
-    int id;
-    User user;
-    Branch branch;
-    int number;
-    double balance = 2000;
+    public int id;
+    public User user;
+    public Branch branch;
+    public int number;
+    public double balance = 2000;
 
     public BankAccount() {
 
@@ -25,14 +25,13 @@ public class BankAccount {
         this.balance = balance;
     }
 
-    public double makeTransaction(Transaction transaction) {
+    public void makeTransaction(Transaction transaction) {
         if (transaction.type.name.equals("Receita")) {
-            return balance += transaction.value;
+            balance += transaction.value;
         }
         if (transaction.type.name.equals("Despesa")) {
-            return balance -= transaction.value;
+            balance -= transaction.value;
         }
-        return balance;
     }
 
     public void displayBankAccount() {
@@ -43,5 +42,9 @@ public class BankAccount {
 
     public void checkBalance() {
         System.out.println("\nSaldo: " + balance);
+    }
+
+    public void displayLastTransaction(Transaction transaction) {
+        transaction.LastTransaction();
     }
 }

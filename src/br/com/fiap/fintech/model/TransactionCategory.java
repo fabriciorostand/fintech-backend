@@ -1,19 +1,19 @@
 package br.com.fiap.fintech.model;
 
-public class Category {
+public class TransactionCategory {
     public int id;
     public String name;
 
-    public Category() {
+    public TransactionCategory() {
 
     }
 
-    public Category(int id, String name) {
+    public TransactionCategory(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public void displayCategory() {
+    public void displayTransactionCategory() {
         System.out.println("Categoria: " + name);
     }
 }

@@ -20,11 +20,7 @@ public class User {
     }
 
     public void displayUser() {
-        if (logged) {
             System.out.println("\nNome: " + name);
             System.out.println("E-mail: " + email);
-        } else {
-            System.out.println("Faça o login primeiro!");
-        }
     }
 }
