@@ -1,9 +1,18 @@
 package br.com.fiap.fintech.model;
 
 public class Bank {
-    public int id;
-    public String name;
-    public int number;
+    private int id;
+    private String name;
+    private int number;
+
+    // Getters
+    public String getName() {
+        return name;
+    }
+
+    public int getNumber() {
+        return number;
+    }
 
     public Bank() {
 

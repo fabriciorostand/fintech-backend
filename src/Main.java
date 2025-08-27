@@ -15,17 +15,31 @@ public class Main {
         int menuOption;
 
         do {
-            System.out.println("\nEscolha uma opção:\n1 - Cadastrar usuário\n2 - Fazer login\n3 - Adicionar Conta Bancária\n4 - Fazer um Lançamento\n5 - Consultar saldo\n6 - Exibir Extrato (Último Lançamento)\n7 - Exibir informações do usuário\n8 - Exibir informações da Conta Bancária\n0 - Sair");
+            System.out.println("""
+                    Escolha uma opção:
+                    1 - Cadastrar usuário
+                    2 - Fazer login
+                    3 - Adicionar Conta Bancária
+                    4 - Fazer um Lançamento
+                    5 - Consultar saldo
+                    6 - Exibir Extrato (Último Lançamento)
+                    7 - Exibir informações do usuário
+                    8 - Exibir informações da Conta Bancária
+                    0 - Sair
+                    """);
+
             menuOption = scanner.nextInt();
 
             switch (menuOption) {
                 case 1:
-                    System.out.println("Nome:");
-                    user.name = scanner.next() + scanner.nextLine();
+                    System.out.println("\nNome:");
+                    user.setName(scanner.next() + scanner.nextLine());
                     System.out.println("E-mail:");
-                    user.email = scanner.nextLine();
+                    user.setEmail(scanner.nextLine());
                     System.out.println("Senha:");
-                    user.password = scanner.nextLine();
+                    user.setPassword(scanner.nextLine());
+
+                    System.out.println("\nCadastro feito com sucesso!\n");
                     break;
                 case 2:
                     System.out.println("\nE-mail: ");
@@ -52,43 +66,43 @@ public class Main {
                     bankAccount = new BankAccount(user, branch, bankAccountNumber);
                     break;
                 case 4:
-                    if (!user.logged) {
+                    if (!user.isLogged()) {
                         System.out.println("\nErro: Faça o login para fazer lançamentos.");
                     } else if (bankAccount == null) {
-                        System.out.println("\nErro: Para fazer lançamentos primeiro cadastre uma Conta Bancária.");
+                        System.out.println("\nErro: Para fazer lançamentos primeiro cadastre uma Conta Bancária.\n");
                     } else {
                         transaction = new Transaction();
                         TransactionType transactionType = new TransactionType();
                         TransactionCategory category = new TransactionCategory();
 
                         System.out.println("\nTipo do Lançamento (Receita/Despesa): ");
-                        transactionType.name = scanner.next() + scanner.nextLine();
+                        transactionType.setName(scanner.next() + scanner.nextLine());
 
                         System.out.println("Categoria do Lançamento (Ex. Alimentação): ");
-                        category.name = scanner.nextLine();
+                        category.setName(scanner.nextLine());
 
                         System.out.println("Nome do Lançamento: ");
-                        transaction.name = scanner.nextLine();
+                        transaction.setName(scanner.nextLine());
 
                         System.out.println("Data (dd/mm/aaaa): ");
                         String dateStr = scanner.nextLine();
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                        transaction.date = LocalDate.parse(dateStr, formatter);
+                        transaction.setDate(LocalDate.parse(dateStr, formatter));
 
                         System.out.println("Valor: ");
-                        transaction.value = scanner.nextDouble();
+                        transaction.setValue(scanner.nextDouble());
 
                         System.out.println("Descrição: ");
-                        transaction.description = scanner.next() + scanner.nextLine();
+                        transaction.setDescription(scanner.next() + scanner.nextLine());
 
-                        transaction.type = transactionType;
-                        transaction.category = category;
+                        transaction.setType(transactionType);
+                        transaction.setCategory(category);
 
                         bankAccount.makeTransaction(transaction);
                     }
                     break;
                 case 5:
-                    if (!user.logged) {
+                    if (!user.isLogged()) {
                         System.out.println("\nErro: Faça o login para consultar o saldo.");
                     } else if (bankAccount == null) {
                         System.out.println("\nErro: Cadastre uma conta bancária para consultar o saldo.");
@@ -97,23 +111,23 @@ public class Main {
                     }
                     break;
                 case 6:
-                    if (!user.logged) {
+                    if (!user.isLogged()) {
                         System.out.println("\nErro: Usuário não está logado. Não é possível exibir lançamentos.");
                     } else if (transaction == null) {
-                        System.out.println("\nNenhum lançamento feito ainda.");
+                        System.out.println("\nNenhum lançamento feito ainda.\n");
                     } else {
                         bankAccount.displayLastTransaction(transaction);
                     }
                     break;
                 case 7:
-                    if (user.logged) {
+                    if (user.isLogged()) {
                         user.displayUser();
                     } else {
                         System.out.println("\nErro: Faça o login para exibir as informações de usuário.");
                     }
                     break;
                 case 8:
-                    if (!user.logged) {
+                    if (!user.isLogged()) {
                         System.out.println("\nErro: Usuário não está logado. Não é possível exibir as informações de Conta Bancária.");
                     } else if (bankAccount == null) {
                         System.out.println("\nNenhuma Conta Bancária cadastrada.");

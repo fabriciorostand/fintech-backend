@@ -4,14 +4,62 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
-    public int id;
-    public BankAccount bankAccount;
-    public TransactionType type;
-    public TransactionCategory category;
-    public String name;
-    public double value;
-    public LocalDate date;
-    public String description;
+    private int id;
+    private BankAccount bankAccount;
+    private TransactionType type;
+    private TransactionCategory category;
+    private String name;
+    private double value;
+    private LocalDate date;
+    private String description;
+
+    // Getters
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+    public TransactionType getType() {
+        return type;
+    }
+    public TransactionCategory getCategory() {
+        return category;
+    }
+    public String getName() {
+        return name;
+    }
+    public double getValue() {
+        return value;
+    }
+    public LocalDate getDate() {
+        return date;
+    }
+    public String getDescription() {
+        return description;
+    }
+
+    //Setters
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public void setCategory(TransactionCategory category) {
+        this.category = category;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Transaction() {
 
@@ -28,7 +76,7 @@ public class Transaction {
         this.description = description;
     }
 
-    public void LastTransaction() {
+    public void lastTransaction() {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
             type.displayTransactionType();

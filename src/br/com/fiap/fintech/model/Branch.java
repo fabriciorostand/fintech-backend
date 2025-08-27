@@ -1,9 +1,18 @@
 package br.com.fiap.fintech.model;
 
 public class Branch {
-    public int id;
-    public Bank bank;
-    public int number;
+    private int id;
+    private Bank bank;
+    private int number;
+
+    // Getters
+    public Bank getBank() {
+        return bank;
+    }
+
+    public int getNumber() {
+        return number;
+    }
 
     public Branch() {
 

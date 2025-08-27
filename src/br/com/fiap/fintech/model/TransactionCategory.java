@@ -1,8 +1,18 @@
 package br.com.fiap.fintech.model;
 
 public class TransactionCategory {
-    public int id;
-    public String name;
+    private int id;
+    private String name;
+
+    // Getters
+    public String getName() {
+        return name;
+    }
+
+    //Setters
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public TransactionCategory() {
 

@@ -1,9 +1,7 @@
 package br.com.fiap.fintech.model;
 
 public class Login {
-    String email;
-    String password;
-    User user;
+    private User user;
 
     public Login() {
 
@@ -13,19 +11,12 @@ public class Login {
         this.user = user;
     }
 
-
-    public Login(String email, String password, User user) {
-        this.email = email;
-        this.password = password;
-        this.user = user;
-    }
-
     public void doLogin(String email, String password) {
-        if (email.equals(user.email) && password.equals(user.password)) {
-            user.logged = true;
-            System.out.println("\nLogin feito com sucesso!");
+        if (email.equals(user.getEmail()) && password.equals(user.getPassword())) {
+            user.setLogged(true);
+            System.out.println("\nLogin feito com sucesso!\n");
         } else {
-            System.out.println("\nCredencias inválidas");
+            System.out.println("\nCredenciais inválidas\n");
         }
     }
 }
