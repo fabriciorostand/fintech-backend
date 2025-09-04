@@ -1,6 +1,7 @@
 package br.com.fiap.fintech.model;
 
 public class TransactionCategory {
+    // Attributes
     private int id;
     private String name;
 
@@ -14,6 +15,7 @@ public class TransactionCategory {
         this.name = name;
     }
 
+    // Constructors
     public TransactionCategory() {
 
     }
@@ -23,7 +25,8 @@ public class TransactionCategory {
         this.name = name;
     }
 
+    // Methods
     public void displayTransactionCategory() {
-        System.out.println("Categoria: " + name);
+        System.out.println("Categoria: " + getName());
     }
 }

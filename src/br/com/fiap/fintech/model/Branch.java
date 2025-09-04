@@ -1,6 +1,7 @@
 package br.com.fiap.fintech.model;
 
 public class Branch {
+    // Attributes
     private int id;
     private Bank bank;
     private int number;
@@ -14,6 +15,7 @@ public class Branch {
         return number;
     }
 
+    // Constructors
     public Branch() {
 
     }
@@ -29,7 +31,8 @@ public class Branch {
         this.number = number;
     }
 
+    // Methods
     public void displayBranch() {
-        System.out.println("Número da Agência: " + number);
+        System.out.println("Número da Agência: " + getNumber());
     }
 }

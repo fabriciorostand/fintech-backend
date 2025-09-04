@@ -1,10 +1,12 @@
+package br.com.fiap.fintech.view;
+
 import br.com.fiap.fintech.model.*;
 
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Main {
+public class Menu {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -16,6 +18,7 @@ public class Main {
 
         do {
             System.out.println("""
+                    
                     Escolha uma opção:
                     1 - Cadastrar usuário
                     2 - Fazer login
@@ -39,7 +42,7 @@ public class Main {
                     System.out.println("Senha:");
                     user.setPassword(scanner.nextLine());
 
-                    System.out.println("\nCadastro feito com sucesso!\n");
+                    System.out.println("\nCadastro feito com sucesso!");
                     break;
                 case 2:
                     System.out.println("\nE-mail: ");
@@ -71,34 +74,39 @@ public class Main {
                     } else if (bankAccount == null) {
                         System.out.println("\nErro: Para fazer lançamentos primeiro cadastre uma Conta Bancária.\n");
                     } else {
-                        transaction = new Transaction();
-                        TransactionType transactionType = new TransactionType();
                         TransactionCategory category = new TransactionCategory();
 
                         System.out.println("\nTipo do Lançamento (Receita/Despesa): ");
-                        transactionType.setName(scanner.next() + scanner.nextLine());
+                        String typeInput = scanner.next() + scanner.nextLine();
 
                         System.out.println("Categoria do Lançamento (Ex. Alimentação): ");
                         category.setName(scanner.nextLine());
 
                         System.out.println("Nome do Lançamento: ");
-                        transaction.setName(scanner.nextLine());
+                        String name = scanner.nextLine();
 
                         System.out.println("Data (dd/mm/aaaa): ");
                         String dateStr = scanner.nextLine();
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                        transaction.setDate(LocalDate.parse(dateStr, formatter));
+                        LocalDate date = LocalDate.parse(dateStr, formatter);
 
                         System.out.println("Valor: ");
-                        transaction.setValue(scanner.nextDouble());
+                        double value = scanner.nextDouble();
 
                         System.out.println("Descrição: ");
-                        transaction.setDescription(scanner.next() + scanner.nextLine());
+                        String description = scanner.next() + scanner.nextLine();
 
-                        transaction.setType(transactionType);
-                        transaction.setCategory(category);
+                        if (typeInput.equalsIgnoreCase("Receita")) {
+                            transaction = new Income(bankAccount, category, name, value, date, description);
+                        } else if (typeInput.equalsIgnoreCase("Despesa")) {
+                            transaction = new Expense(bankAccount, category, name, value, date, description);
+                        } else {
+                            System.out.println("\nTipo inválido! Lançamento cancelado.\n");
+                        }
 
-                        bankAccount.makeTransaction(transaction);
+                        if (transaction != null) {
+                            bankAccount.makeTransaction(transaction);
+                        }
                     }
                     break;
                 case 5:

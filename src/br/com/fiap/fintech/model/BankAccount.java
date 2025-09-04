@@ -1,6 +1,7 @@
 package br.com.fiap.fintech.model;
 
 public class BankAccount {
+    // Attributes
     private int id;
     private User user;
     private Branch branch;
@@ -21,6 +22,13 @@ public class BankAccount {
         return balance;
     }
 
+    // Setters
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+
+    // Constructors
     public BankAccount() {
 
     }
@@ -39,23 +47,19 @@ public class BankAccount {
         this.balance = balance;
     }
 
+    // Methods
     public void makeTransaction(Transaction transaction) {
-        if (transaction.getType().getName().equalsIgnoreCase("Receita")) {
-            balance += transaction.getValue();
-        }
-        if (transaction.getType().getName().equalsIgnoreCase("Despesa")) {
-            balance -= transaction.getValue();
-        }
+        transaction.apply();
     }
 
     public void displayBankAccount() {
         branch.getBank().displayBank();
         branch.displayBranch();
-        System.out.println("Número da Conta: " + number);
+        System.out.println("Número da Conta: " + getNumber());
     }
 
     public void checkBalance() {
-        System.out.println("\nSaldo: " + balance);
+        System.out.println("\nSaldo: " + getBalance());
     }
 
     public void displayLastTransaction(Transaction transaction) {

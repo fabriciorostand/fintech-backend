@@ -1,6 +1,7 @@
 package br.com.fiap.fintech.model;
 
 public class User {
+    // Attributes
     private int id;
     private String name;
     private String email;
@@ -40,6 +41,7 @@ public class User {
         this.logged = logged;
     }
 
+    // Constructors
     public User() {
 
     }
@@ -52,8 +54,9 @@ public class User {
         this.logged = logged;
     }
 
+    // Methods
     public void displayUser() {
-            System.out.println("\nNome: " + name);
-            System.out.println("E-mail: " + email);
+            System.out.println("\nNome: " + getName());
+            System.out.println("E-mail: " + getEmail());
     }
 }

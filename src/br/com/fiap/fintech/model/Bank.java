@@ -1,6 +1,7 @@
 package br.com.fiap.fintech.model;
 
 public class Bank {
+    // Attributes
     private int id;
     private String name;
     private int number;
@@ -14,6 +15,7 @@ public class Bank {
         return number;
     }
 
+    // Constructors
     public Bank() {
 
     }
@@ -23,8 +25,9 @@ public class Bank {
         this.number = number;
     }
 
+    // Methods
     public void displayBank() {
-        System.out.println("\nNome do banco: " + name);
-        System.out.println("Número do banco: " + number);
+        System.out.println("\nNome do banco: " + getName());
+        System.out.println("Número do banco: " + getNumber());
     }
 }
