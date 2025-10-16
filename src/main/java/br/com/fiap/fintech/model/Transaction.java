@@ -89,13 +89,13 @@ public abstract class Transaction {
     public abstract String getType();
 
     public void lastTransaction() {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-            System.out.println("\nTipo: " + getType());
-            System.out.println("Nome: " + getName());
-            category.displayTransactionCategory();
-            System.out.println("Data: " + getDate().format(formatter));
-            System.out.println("Descrição: " + getDescription());
-            System.out.println("Valor: " + getValue());
+        System.out.println("\nTipo: " + getType());
+        System.out.println("Nome: " + getName());
+        category.displayTransactionCategory();
+        System.out.println("Data: " + getDate().format(formatter));
+        System.out.println("Descrição: " + getDescription());
+        System.out.println("Valor: " + getValue());
     }
 }

@@ -56,7 +56,7 @@ public class User {
 
     // Methods
     public void displayUser() {
-            System.out.println("\nNome: " + getName());
-            System.out.println("E-mail: " + getEmail());
+        System.out.println("\nNome: " + getName());
+        System.out.println("E-mail: " + getEmail());
     }
 }
