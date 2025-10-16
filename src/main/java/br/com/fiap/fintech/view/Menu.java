@@ -1,7 +1,9 @@
 package br.com.fiap.fintech.view;
 
+import br.com.fiap.fintech.dao.UserDao;
 import br.com.fiap.fintech.model.*;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +12,7 @@ public class Menu {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        User user = new User();
+        User user = null;
         BankAccount bankAccount = null;
         Transaction transaction = null;
 
@@ -36,13 +38,21 @@ public class Menu {
             switch (menuOption) {
                 case 1:
                     System.out.println("\nNome:");
-                    user.setName(scanner.next() + scanner.nextLine());
+                    String nameRegister = scanner.next() + scanner.nextLine();
                     System.out.println("E-mail:");
-                    user.setEmail(scanner.nextLine());
+                    String emailRegister = scanner.nextLine();
                     System.out.println("Senha:");
-                    user.setPassword(scanner.nextLine());
+                    String passwordRegister = scanner.nextLine();
 
-                    System.out.println("\nCadastro feito com sucesso!");
+                    try {
+                        UserDao dao = new UserDao();
+                        user = new User(nameRegister, emailRegister, passwordRegister);
+                        dao.register(user);
+                        dao.closeConnection();
+                        System.out.println("\nCadastro realizado com sucesso!");
+                    } catch (SQLException e) {
+                        System.err.println(e.getMessage());
+                    }
                     break;
                 case 2:
                     System.out.println("\nE-mail: ");
@@ -50,8 +60,14 @@ public class Menu {
                     System.out.println("Senha: ");
                     String password = scanner.nextLine();
 
-                    Login login = new Login(user);
-                    login.doLogin(email, password);
+                    try {
+                        UserDao dao = new UserDao();
+
+                        Login login = new Login(dao);
+                        login.doLogin(email, password);
+                    } catch (SQLException e) {
+                        System.err.println(e.getMessage());
+                    }
                     break;
                 case 3:
                     System.out.println("\nNome do banco: ");

@@ -9,6 +9,10 @@ public class User {
     private boolean logged = false;
 
     // Getters
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -44,6 +48,24 @@ public class User {
     // Constructors
     public User() {
 
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(int id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
 
     public User(int id, String name, String email, String password, boolean logged) {
