@@ -1,10 +1,22 @@
 package br.com.fiap.fintech.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "T_FIN_AGENCIA")
 public class Branch {
     // Attributes
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_FIN_AGENCIA_SEQ")
+    @SequenceGenerator(name = "T_FIN_AGENCIA_SEQ", sequenceName = "T_FIN_AGENCIA_SEQ", allocationSize = 1)
+    @Column(name = "ID_AGENCIA")
     private int id;
+
+    @Column(name = "ID_BANCO")
     private int bankId;
-    private Bank bank;
+
+
+    @Column(name = "NR_AGENCIA")
     private int number;
 
     // Getters
@@ -14,10 +26,6 @@ public class Branch {
 
     public int getBankId() {
         return bankId;
-    }
-
-    public Bank getBank() {
-        return bank;
     }
 
     public int getNumber() {
@@ -47,20 +55,9 @@ public class Branch {
         this.bankId = bankId;
     }
 
-    public Branch(Bank bank, int number) {
-        this.bank = bank;
-        this.number = number;
-    }
-
     public Branch(int id, int bankId, int number) {
         this.id = id;
         this.bankId = bankId;
-        this.number = number;
-    }
-
-    public Branch(int id, Bank bank, int number) {
-        this.id = id;
-        this.bank = bank;
         this.number = number;
     }
 
