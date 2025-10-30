@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 public class TransactionType {
     // Attributes
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_FIN_USUARIO_ID_USUARIO_SEQ")
-    @SequenceGenerator(name = "T_FIN_USUARIO_ID_USUARIO_SEQ", sequenceName = "T_FIN_USUARIO_ID_USUARIO_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_FIN_TIPO_LANCAMENTO_SEQ")
+    @SequenceGenerator(name = "T_FIN_TIPO_LANCAMENTO_SEQ", sequenceName = "T_FIN_TIPO_LANCAMENTO_SEQ", allocationSize = 1)
     @Column(name = "ID_TIPO_LANCAMENTO")
     private int id;
 

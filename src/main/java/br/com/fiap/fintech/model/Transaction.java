@@ -1,18 +1,38 @@
 package br.com.fiap.fintech.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "T_FIN_LANCAMENTO")
 public class Transaction {
     // Attributes
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_FIN_LANCAMENTO_SEQ")
+    @SequenceGenerator(name = "T_FIN_LANCAMENTO_SEQ", sequenceName = "T_FIN_LANCAMENTO_SEQ", allocationSize = 1)
+    @Column(name = "ID_LANCAMENTO")
     private int id;
+
+    @Column(name = "ID_CONTA_BANCARIA")
     private int bankAccountId;
+
+    @Column(name = "ID_TIPO_LANCAMENTO")
     private int transactionTypeId;
+
+    @Column(name = "ID_CATEGORIA_LANCAMENTO")
     private int transactionCategoryId;
-    private BankAccount bankAccount;
-    private TransactionCategory category;
+
+    @Column(name = "NM_LANCAMENTO")
     private String name;
+
+    @Column(name = "VL_LANCAMENTO")
     private double value;
+
+    @Column(name = "DT_LANCAMENTO")
     private LocalDate date;
+
+    @Column(name = "DS_LANCAMENTO")
     private String description;
 
     // Getters
@@ -32,14 +52,6 @@ public class Transaction {
         return transactionCategoryId;
     }
 
-    public BankAccount getBankAccount() {
-        return bankAccount;
-    }
-
-    public TransactionCategory getCategory() {
-        return category;
-    }
-
     public String getName() {
         return name;
     }
@@ -57,10 +69,6 @@ public class Transaction {
     }
 
     //Setters
-    public void setCategory(TransactionCategory category) {
-        this.category = category;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -80,25 +88,6 @@ public class Transaction {
     // Constructors
     public Transaction() {
 
-    }
-
-    public Transaction(BankAccount bankAccount, TransactionCategory category, String name, double value, LocalDate date, String description) {
-        this.bankAccount = bankAccount;
-        this.category = category;
-        this.name = name;
-        this.value = value;
-        this.date = date;
-        this.description = description;
-    }
-
-    public Transaction(int id, BankAccount bankAccount, TransactionCategory category, String name, double value, LocalDate date, String description) {
-        this.id = id;
-        this.bankAccount = bankAccount;
-        this.category = category;
-        this.name = name;
-        this.value = value;
-        this.date = date;
-        this.description = description;
     }
 
     public Transaction(int bankAccountId, int transactionTypeId, int transactionCategoryId, String name, double value, LocalDate date, String description) {
