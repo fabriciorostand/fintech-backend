@@ -16,7 +16,7 @@ public class Bank {
     private String name;
 
     @Column(name = "NR_BANCO")
-    private int number;
+    private String number;
 
     // Getters
     public int getId() {
@@ -27,7 +27,7 @@ public class Bank {
         return name;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
@@ -36,7 +36,7 @@ public class Bank {
         this.name = name;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -45,13 +45,13 @@ public class Bank {
 
     }
 
-    public Bank(int id, String name, int number) {
+    public Bank(int id, String name, String number) {
         this.id = id;
         this.name = name;
         this.number = number;
     }
 
-    public Bank(String name, int number) {
+    public Bank(String name, String number) {
         this.name = name;
         this.number = number;
     }
