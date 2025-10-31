@@ -22,7 +22,7 @@ public class BankAccount {
     private int bankId;
 
     @Column(name = "NR_CONTA_BANCARIA")
-    private int number;
+    private String number;
 
     @Column(name = "VL_SALDO_ATUAL")
     private double balance = 2000;
@@ -44,12 +44,8 @@ public class BankAccount {
         return bankId;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
-    }
-
-    public String getAccountNumber() {
-        return String.valueOf(number);
     }
 
     public double getBalance() {
@@ -78,7 +74,13 @@ public class BankAccount {
 
     }
 
-    public BankAccount(int userId, int branchId, int bankId, int number, double balance) {
+    public BankAccount(int id, String number, double balance) {
+        this.id = id;
+        this.number = number;
+        this.balance = balance;
+    }
+
+    public BankAccount(int userId, int branchId, int bankId, String number, double balance) {
         this.userId = userId;
         this.branchId = branchId;
         this.bankId = bankId;
@@ -86,18 +88,12 @@ public class BankAccount {
         this.balance = balance;
     }
 
-    public BankAccount(int id, int userId, int branchId, int bankId, int number, double balance) {
+    public BankAccount(int id, int userId, int branchId, int bankId, String number, double balance) {
         this.id = id;
         this.userId = userId;
         this.branchId = branchId;
         this.bankId = bankId;
         this.number = number;
-        this.balance = balance;
-    }
-
-    public BankAccount(int id, String accountNumber, double balance) {
-        this.id = id;
-        this.number = Integer.parseInt(accountNumber);
         this.balance = balance;
     }
 

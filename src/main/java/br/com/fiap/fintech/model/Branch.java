@@ -17,7 +17,7 @@ public class Branch {
 
 
     @Column(name = "NR_AGENCIA")
-    private int number;
+    private String number;
 
     // Getters
     public int getId() {
@@ -28,12 +28,12 @@ public class Branch {
         return bankId;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
     // Setters
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -46,16 +46,16 @@ public class Branch {
 
     }
 
-    public Branch(int number) {
+    public Branch(String number) {
         this.number = number;
     }
 
-    public Branch(int number, int bankId) {
+    public Branch(String number, int bankId) {
         this.number = number;
         this.bankId = bankId;
     }
 
-    public Branch(int id, int bankId, int number) {
+    public Branch(int id, int bankId, String number) {
         this.id = id;
         this.bankId = bankId;
         this.number = number;
