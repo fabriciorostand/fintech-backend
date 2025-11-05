@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/transaction-types")
+@CrossOrigin(origins = "http://localhost:5173")
 public class TransactionTypeController {
     @Autowired
     private TransactionTypeService transactionTypeService;

@@ -14,6 +14,10 @@ public class Transaction {
     @Column(name = "ID_LANCAMENTO")
     private int id;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_CONTA_BANCARIA", insertable = false, updatable = false)
+    private BankAccount bankAccount;
+
     @Column(name = "ID_CONTA_BANCARIA")
     private int bankAccountId;
 

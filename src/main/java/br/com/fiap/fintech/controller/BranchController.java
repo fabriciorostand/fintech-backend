@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/branches")
+@CrossOrigin(origins = "http://localhost:5173")
 public class BranchController {
     @Autowired
     private BranchService branchService;

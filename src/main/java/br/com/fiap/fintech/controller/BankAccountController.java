@@ -1,6 +1,7 @@
 package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.model.BankAccount;
+import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bank-accounts")
+@CrossOrigin(origins = "http://localhost:5173")
 public class BankAccountController {
     @Autowired
     private BankAccountService bankAccountService;
@@ -24,6 +26,12 @@ public class BankAccountController {
     @ResponseStatus(HttpStatus.OK)
     public BankAccount findById(@PathVariable int id) {
         return bankAccountService.findById(id);
+    }
+
+    @GetMapping("/{id}/transactions")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Transaction> findByBankAccountId(@PathVariable int id) {
+        return bankAccountService.findByBankAccountId(id);
     }
 
     @GetMapping

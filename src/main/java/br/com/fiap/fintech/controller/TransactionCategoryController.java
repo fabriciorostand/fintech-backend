@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/transaction-categories")
+@CrossOrigin(origins = "http://localhost:5173")
 public class TransactionCategoryController {
     @Autowired
     private TransactionCategoryService transactionCategoryService;

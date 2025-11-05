@@ -50,4 +50,14 @@ public class UserService {
             throw new RuntimeException("Erro ao excluir: usuário não encontrado!");
         }
     }
+
+    public User authenticate(String email, String password) {
+        Optional<User> user = userRepository.findByEmail(email);
+
+        if (user.isPresent() && user.get().getPassword().equals(password)) {
+            return user.get();
+        } else {
+            return null;
+        }
+    }
 }

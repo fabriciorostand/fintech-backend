@@ -1,6 +1,7 @@
 package br.com.fiap.fintech.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "T_FIN_CONTA_BANCARIA")
@@ -26,6 +27,9 @@ public class BankAccount {
 
     @Column(name = "VL_SALDO_ATUAL")
     private double balance = 2000;
+
+    @OneToMany(mappedBy = "bankAccountId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
 
     //Getters
     public int getId() {

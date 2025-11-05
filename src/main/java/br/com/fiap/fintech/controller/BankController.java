@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/banks")
+@CrossOrigin(origins = "http://localhost:5173")
 public class BankController {
     @Autowired
     private BankService bankService;
