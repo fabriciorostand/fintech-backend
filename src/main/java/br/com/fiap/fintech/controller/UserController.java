@@ -2,7 +2,9 @@ package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.dto.LoginRequest;
 import br.com.fiap.fintech.dto.LoginResponse;
+import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.model.User;
+import br.com.fiap.fintech.service.TransactionService;
 import br.com.fiap.fintech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,9 @@ public class UserController {
     // Attributes
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     // Methods
 
@@ -40,6 +45,23 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public List<User> findAll() {
         return userService.findAll();
+    }
+
+    // Responsável por consultar todas as transações de um usuário
+    @GetMapping("/{id}/transactions")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Transaction> findByUserId(@PathVariable int id) {
+        // Valida se o usuário existe
+        userService.findById(id);
+        // Busca as transações através do serviço apropriado
+        return transactionService.findByUserId(id);
+    }
+
+    // Responsável por consultar todas as transações de um usuário de determinado tipo
+    @GetMapping("/{id}/transactions/transaction-types/{transactionTypeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Transaction> findByUserIdAndTransactionTypeId(@PathVariable int id, @PathVariable int transactionTypeId) {
+        return transactionService.findByUserIdAndTransactionTypeId(id, transactionTypeId);
     }
 
     // Responsável por atualizar um usuário no DB

@@ -1,9 +1,7 @@
 package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.BankAccount;
-import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.repository.BankAccountRepository;
-import br.com.fiap.fintech.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +12,6 @@ import java.util.Optional;
 public class BankAccountService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
-
-    @Autowired
-    private TransactionRepository transactionRepository;
 
     public BankAccount register(BankAccount bankAccount) {
         return bankAccountRepository.save(bankAccount);
@@ -30,10 +25,6 @@ public class BankAccountService {
         } else {
             throw new RuntimeException("Conta bancária não encontrada!");
         }
-    }
-
-    public List<Transaction> findByBankAccountId(int id) {
-        return transactionRepository.findByBankAccountId(id);
     }
 
     public List<BankAccount> findAll() {

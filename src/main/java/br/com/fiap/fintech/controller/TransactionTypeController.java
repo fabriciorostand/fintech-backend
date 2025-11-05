@@ -17,8 +17,8 @@ public class TransactionTypeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TransactionType register(@RequestBody TransactionType type) {
-        return transactionTypeService.register(type);
+    public TransactionType register(@RequestBody TransactionType transactionType) {
+        return transactionTypeService.register(transactionType);
     }
 
     @GetMapping("/{id}")
@@ -35,8 +35,8 @@ public class TransactionTypeController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TransactionType update(@PathVariable int id, @RequestBody TransactionType type) {
-        return transactionTypeService.update(id, type);
+    public TransactionType update(@PathVariable int id, @RequestBody TransactionType transactionType) {
+        return transactionTypeService.update(id, transactionType);
     }
 
     @DeleteMapping("/{id}")

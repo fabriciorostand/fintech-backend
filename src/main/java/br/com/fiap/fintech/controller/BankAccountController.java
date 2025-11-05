@@ -3,6 +3,7 @@ package br.com.fiap.fintech.controller;
 import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.service.BankAccountService;
+import br.com.fiap.fintech.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ import java.util.List;
 public class BankAccountController {
     @Autowired
     private BankAccountService bankAccountService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -31,7 +35,10 @@ public class BankAccountController {
     @GetMapping("/{id}/transactions")
     @ResponseStatus(HttpStatus.OK)
     public List<Transaction> findByBankAccountId(@PathVariable int id) {
-        return bankAccountService.findByBankAccountId(id);
+        // Valida se a conta existe
+        bankAccountService.findById(id);
+        // Busca as transações através do serviço apropriado
+        return transactionService.findByBankAccountId(id);
     }
 
     @GetMapping
