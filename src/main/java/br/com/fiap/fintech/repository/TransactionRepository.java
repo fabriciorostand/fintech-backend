@@ -8,4 +8,5 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
     List<Transaction> findByBankAccountId(int bankAccountId);
     List<Transaction> findByBankAccount_UserIdAndTransactionTypeId(int userId, int transactionTypeId);
+    List<Transaction> findByBankAccountIdAndTransactionTypeId(int bankAccountId, int transactionTypeId);
 }

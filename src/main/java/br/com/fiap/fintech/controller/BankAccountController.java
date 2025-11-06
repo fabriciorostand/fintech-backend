@@ -41,6 +41,15 @@ public class BankAccountController {
         return transactionService.findByBankAccountId(id);
     }
 
+    @GetMapping("/{id}/transactions/transaction-types/{transactionTypeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Transaction> findByBankAccountIdAndTransactionTypeId(@PathVariable int id,@PathVariable int transactionTypeId) {
+        // Valida se a conta existe
+        bankAccountService.findById(id);
+        // Busca as transações através do serviço apropriado
+        return transactionService.findByBankAccountIdAndTransactionTypeId(id, transactionTypeId);
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<BankAccount> findAll() {

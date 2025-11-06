@@ -26,7 +26,7 @@ public class BankAccount {
     private String number;
 
     @Column(name = "VL_SALDO_ATUAL")
-    private double balance = 2000;
+    private double balance;
 
     @OneToMany(mappedBy = "bankAccountId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;

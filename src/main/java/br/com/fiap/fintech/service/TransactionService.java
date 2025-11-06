@@ -2,10 +2,13 @@ package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.model.Transaction;
+import br.com.fiap.fintech.model.TransactionType;
 import br.com.fiap.fintech.repository.BankAccountRepository;
 import br.com.fiap.fintech.repository.TransactionRepository;
+import br.com.fiap.fintech.repository.TransactionTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +22,17 @@ public class TransactionService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
+    @Autowired
+    private TransactionTypeRepository transactionTypeRepository;
+
+    @Autowired
+    private BankAccountService bankAccountService;
+
+    @Transactional
     public Transaction register(Transaction transaction) {
-        return transactionRepository.save(transaction);
+        Transaction savedTransaction = transactionRepository.save(transaction);
+        updateAccountBalanceForNewTransaction(savedTransaction);
+        return savedTransaction;
     }
 
     public Transaction findById(int id) {
@@ -57,23 +69,70 @@ public class TransactionService {
         return transactionRepository.findByBankAccount_UserIdAndTransactionTypeId(userId, transactionTypeId);
     }
 
+    public List<Transaction> findByBankAccountIdAndTransactionTypeId(int bankAccountId, int transactionTypeId) {
+        return transactionRepository.findByBankAccountIdAndTransactionTypeId(bankAccountId, transactionTypeId);
+    }
+
+    @Transactional
     public Transaction update(int id, Transaction transaction) {
         Optional<Transaction> existent = transactionRepository.findById(id);
 
         if (existent.isPresent()) {
-            return transactionRepository.save(transaction);
+            Transaction oldTransaction = existent.get();
+            
+            // Reverte o efeito da transação antiga
+            revertAccountBalanceForTransaction(oldTransaction);
+            
+            // Salva a nova transação
+            Transaction updatedTransaction = transactionRepository.save(transaction);
+            
+            // Aplica o efeito da nova transação
+            updateAccountBalanceForNewTransaction(updatedTransaction);
+            
+            return updatedTransaction;
         } else {
             throw new RuntimeException("Erro ao atualizar: transação não encontrada!");
         }
     }
 
+    @Transactional
     public void delete(int id) {
         Optional<Transaction> transaction = transactionRepository.findById(id);
 
         if (transaction.isPresent()) {
+            // Reverte o efeito da transação antes de excluí-la
+            revertAccountBalanceForTransaction(transaction.get());
             transactionRepository.deleteById(id);
         } else {
             throw new RuntimeException("Erro ao excluir: transação não encontrada!");
+        }
+    }
+
+    private void updateAccountBalanceForNewTransaction(Transaction transaction) {
+        TransactionType transactionType = transactionTypeRepository.findById(transaction.getTransactionTypeId())
+                .orElseThrow(() -> new RuntimeException("Tipo de transação não encontrado!"));
+        
+        String typeName = transactionType.getName().toLowerCase();
+        
+        // Se for receita/entrada, adiciona ao saldo; se for despesa/saída, subtrai do saldo
+        if (typeName.contains("receita") || typeName.contains("entrada") || typeName.contains("credito")) {
+            bankAccountService.addToBalance(transaction.getBankAccountId(), transaction.getValue());
+        } else if (typeName.contains("despesa") || typeName.contains("saida") || typeName.contains("debito")) {
+            bankAccountService.subtractFromBalance(transaction.getBankAccountId(), transaction.getValue());
+        }
+    }
+
+    private void revertAccountBalanceForTransaction(Transaction transaction) {
+        TransactionType transactionType = transactionTypeRepository.findById(transaction.getTransactionTypeId())
+                .orElseThrow(() -> new RuntimeException("Tipo de transação não encontrado!"));
+        
+        String typeName = transactionType.getName().toLowerCase();
+        
+        // Reverte o efeito: se foi receita, subtrai; se foi despesa, adiciona
+        if (typeName.contains("receita") || typeName.contains("entrada") || typeName.contains("credito")) {
+            bankAccountService.subtractFromBalance(transaction.getBankAccountId(), transaction.getValue());
+        } else if (typeName.contains("despesa") || typeName.contains("saida") || typeName.contains("debito")) {
+            bankAccountService.addToBalance(transaction.getBankAccountId(), transaction.getValue());
         }
     }
 }

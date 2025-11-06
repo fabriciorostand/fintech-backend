@@ -4,6 +4,7 @@ import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.repository.BankAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,5 +50,23 @@ public class BankAccountService {
         } else {
             throw new RuntimeException("Erro ao excluir: conta bancária não encontrada!");
         }
+    }
+
+    @Transactional
+    public void updateBalance(int accountId, double amount) {
+        BankAccount account = findById(accountId);
+        double newBalance = account.getBalance() + amount;
+        account.setBalance(newBalance);
+        bankAccountRepository.save(account);
+    }
+
+    @Transactional
+    public void addToBalance(int accountId, double amount) {
+        updateBalance(accountId, amount);
+    }
+
+    @Transactional
+    public void subtractFromBalance(int accountId, double amount) {
+        updateBalance(accountId, -amount);
     }
 }
