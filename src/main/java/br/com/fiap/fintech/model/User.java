@@ -1,6 +1,7 @@
 package br.com.fiap.fintech.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "T_FIN_USUARIO")
@@ -20,6 +21,9 @@ public class User {
 
     @Column(name = "SH_USUARIO")
     private String password;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BankAccount> bankAccounts;
 
     // Getters
     public int getId() {

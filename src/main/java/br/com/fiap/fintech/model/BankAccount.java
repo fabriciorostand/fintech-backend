@@ -13,6 +13,10 @@ public class BankAccount {
     @Column(name = "ID_CONTA_BANCARIA")
     private int id;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO", insertable = false, updatable = false)
+    private User user;
+
     @Column(name = "ID_USUARIO")
     private int userId;
 
