@@ -2,8 +2,10 @@ package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.dto.LoginRequest;
 import br.com.fiap.fintech.dto.LoginResponse;
+import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.model.User;
+import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
 import br.com.fiap.fintech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class UserController {
 
     @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private BankAccountService bankAccountService;
 
     // Methods
 
@@ -55,6 +60,16 @@ public class UserController {
         userService.findById(id);
         // Busca as transações através do serviço apropriado
         return transactionService.findByUserId(id);
+    }
+
+    // Responsável por consultar todas as contas bancárias de um usuário
+    @GetMapping("/{id}/bank-accounts")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BankAccount> findBankAccountsByUserId(@PathVariable int id) {
+        // Valida se o usuário existe
+        userService.findById(id);
+        // Busca as contas bancárias através do serviço apropriado
+        return bankAccountService.findByUserId(id);
     }
 
     // Responsável por consultar todas as transações de um usuário de determinado tipo

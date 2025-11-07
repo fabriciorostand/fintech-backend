@@ -32,6 +32,10 @@ public class BankAccountService {
         return bankAccountRepository.findAll();
     }
 
+    public List<BankAccount> findByUserId(int userId) {
+        return bankAccountRepository.findByUserId(userId);
+    }
+
     public BankAccount update(int id, BankAccount bankAccount) {
         Optional<BankAccount> existent = bankAccountRepository.findById(id);
 
