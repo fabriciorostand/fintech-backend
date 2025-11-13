@@ -10,8 +10,11 @@ import java.util.Optional;
 
 @Service
 public class BankService {
-    @Autowired
-    private BankRepository bankRepository;
+    private final BankRepository bankRepository;
+
+    public BankService(BankRepository bankRepository) {
+        this.bankRepository = bankRepository;
+    }
 
     public Bank register(Bank bank) {
         return bankRepository.save(bank);
