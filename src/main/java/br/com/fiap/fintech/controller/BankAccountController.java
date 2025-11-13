@@ -14,11 +14,14 @@ import java.util.List;
 @RequestMapping("/api/bank-accounts")
 @CrossOrigin(origins = "http://localhost:5173")
 public class BankAccountController {
-    @Autowired
-    private BankAccountService bankAccountService;
+    private final BankAccountService bankAccountService;
 
     @Autowired
     private TransactionService transactionService;
+
+    public BankAccountController(BankAccountService bankAccountService) {
+        this.bankAccountService = bankAccountService;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
