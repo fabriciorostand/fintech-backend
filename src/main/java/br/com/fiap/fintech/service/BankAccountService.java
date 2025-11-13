@@ -11,8 +11,11 @@ import java.util.Optional;
 
 @Service
 public class BankAccountService {
-    @Autowired
-    private BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
+
+    public BankAccountService(BankAccountRepository bankAccountRepository) {
+        this.bankAccountRepository = bankAccountRepository;
+    }
 
     public BankAccount register(BankAccount bankAccount) {
         return bankAccountRepository.save(bankAccount);
@@ -40,7 +43,11 @@ public class BankAccountService {
         Optional<BankAccount> existent = bankAccountRepository.findById(id);
 
         if (existent.isPresent()) {
-            return bankAccountRepository.save(bankAccount);
+            BankAccount existingAccount = existent.get();
+            // Update only mutable fields
+            existingAccount.setNumber(bankAccount.getNumber());
+            // Note: userId should not be updated as the user relationship is immutable
+            return bankAccountRepository.save(existingAccount);
         } else {
             throw new RuntimeException("Erro ao atualizar: conta bancária não encontrada!");
         }

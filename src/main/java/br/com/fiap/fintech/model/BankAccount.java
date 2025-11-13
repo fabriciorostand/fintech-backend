@@ -77,6 +77,10 @@ public class BankAccount {
         this.balance = balance;
     }
 
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
     // Constructors
     public BankAccount() {
 

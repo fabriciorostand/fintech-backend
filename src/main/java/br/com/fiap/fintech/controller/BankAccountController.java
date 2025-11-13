@@ -15,12 +15,11 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 public class BankAccountController {
     private final BankAccountService bankAccountService;
+    private final TransactionService transactionService;
 
-    @Autowired
-    private TransactionService transactionService;
-
-    public BankAccountController(BankAccountService bankAccountService) {
+    public BankAccountController(BankAccountService bankAccountService, TransactionService transactionService) {
         this.bankAccountService = bankAccountService;
+        this.transactionService = transactionService;
     }
 
     @PostMapping
