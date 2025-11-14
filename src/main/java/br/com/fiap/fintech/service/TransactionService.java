@@ -6,7 +6,6 @@ import br.com.fiap.fintech.model.TransactionType;
 import br.com.fiap.fintech.repository.BankAccountRepository;
 import br.com.fiap.fintech.repository.TransactionRepository;
 import br.com.fiap.fintech.repository.TransactionTypeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,17 +15,20 @@ import java.util.Optional;
 
 @Service
 public class TransactionService {
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    @Autowired
-    private BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
 
-    @Autowired
-    private TransactionTypeRepository transactionTypeRepository;
+    private final TransactionTypeRepository transactionTypeRepository;
 
-    @Autowired
-    private BankAccountService bankAccountService;
+    private final BankAccountService bankAccountService;
+
+    public TransactionService(TransactionRepository transactionRepository, BankAccountRepository bankAccountRepository, TransactionTypeRepository transactionTypeRepository, BankAccountService bankAccountService) {
+        this.transactionRepository = transactionRepository;
+        this.bankAccountRepository = bankAccountRepository;
+        this.transactionTypeRepository = transactionTypeRepository;
+        this.bankAccountService = bankAccountService;
+    }
 
     @Transactional
     public Transaction register(Transaction transaction) {

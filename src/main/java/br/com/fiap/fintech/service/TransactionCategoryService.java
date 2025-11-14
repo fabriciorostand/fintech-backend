@@ -2,7 +2,6 @@ package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.TransactionCategory;
 import br.com.fiap.fintech.repository.TransactionCategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.Optional;
 
 @Service
 public class TransactionCategoryService {
-    @Autowired
-    private TransactionCategoryRepository transactionCategoryRepository;
+    private final TransactionCategoryRepository transactionCategoryRepository;
+
+    public TransactionCategoryService(TransactionCategoryRepository transactionCategoryRepository) {
+        this.transactionCategoryRepository = transactionCategoryRepository;
+    }
 
     public TransactionCategory register(TransactionCategory category) {
         return transactionCategoryRepository.save(category);

@@ -2,7 +2,6 @@ package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.Branch;
 import br.com.fiap.fintech.repository.BranchRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.Optional;
 
 @Service
 public class BranchService {
-    @Autowired
-    private BranchRepository branchRepository;
+    private final BranchRepository branchRepository;
+
+    public BranchService(BranchRepository branchRepository) {
+        this.branchRepository = branchRepository;
+    }
 
     public Branch register(Branch branch) {
         return branchRepository.save(branch);

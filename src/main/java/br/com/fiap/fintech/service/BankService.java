@@ -2,7 +2,6 @@ package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.Bank;
 import br.com.fiap.fintech.repository.BankRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
