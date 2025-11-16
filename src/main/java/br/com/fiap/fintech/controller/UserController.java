@@ -8,7 +8,6 @@ import br.com.fiap.fintech.model.User;
 import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
 import br.com.fiap.fintech.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +19,18 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
     // Attributes
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private TransactionService transactionService;
+    private final TransactionService transactionService;
 
-    @Autowired
-    private BankAccountService bankAccountService;
+    private final BankAccountService bankAccountService;
+
+    // Constructors
+    public UserController(UserService userService, TransactionService transactionService, BankAccountService bankAccountService) {
+        this.userService = userService;
+        this.transactionService = transactionService;
+        this.bankAccountService = bankAccountService;
+    }
 
     // Methods
 

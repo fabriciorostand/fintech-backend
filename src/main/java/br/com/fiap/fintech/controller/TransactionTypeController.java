@@ -2,7 +2,6 @@ package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.model.TransactionType;
 import br.com.fiap.fintech.service.TransactionTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,12 @@ import java.util.List;
 @RequestMapping("/api/transaction-types")
 @CrossOrigin(origins = "http://localhost:5173")
 public class TransactionTypeController {
-    @Autowired
-    private TransactionTypeService transactionTypeService;
+    private final TransactionTypeService transactionTypeService;
+
+    // Constructors
+    public TransactionTypeController(TransactionTypeService transactionTypeService) {
+        this.transactionTypeService = transactionTypeService;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

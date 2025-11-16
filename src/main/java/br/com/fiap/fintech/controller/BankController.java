@@ -2,7 +2,6 @@ package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.model.Bank;
 import br.com.fiap.fintech.service.BankService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,12 @@ import java.util.List;
 @RequestMapping("/api/banks")
 @CrossOrigin(origins = "http://localhost:5173")
 public class BankController {
-    @Autowired
-    private BankService bankService;
+    private final BankService bankService;
+
+    // Constructors
+    public BankController(BankService bankService) {
+        this.bankService = bankService;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

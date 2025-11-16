@@ -2,7 +2,6 @@ package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.model.Branch;
 import br.com.fiap.fintech.service.BranchService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,12 @@ import java.util.List;
 @RequestMapping("/api/branches")
 @CrossOrigin(origins = "http://localhost:5173")
 public class BranchController {
-    @Autowired
-    private BranchService branchService;
+    private final BranchService branchService;
+
+    // Constructors
+    public BranchController(BranchService branchService) {
+        this.branchService = branchService;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

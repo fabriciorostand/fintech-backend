@@ -4,7 +4,6 @@ import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +16,7 @@ public class BankAccountController {
     private final BankAccountService bankAccountService;
     private final TransactionService transactionService;
 
+    // Constructors
     public BankAccountController(BankAccountService bankAccountService, TransactionService transactionService) {
         this.bankAccountService = bankAccountService;
         this.transactionService = transactionService;
