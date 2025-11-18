@@ -16,17 +16,16 @@ import java.util.Optional;
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
-
     private final BankAccountRepository bankAccountRepository;
-
     private final TransactionTypeRepository transactionTypeRepository;
-
+    private final UserService userService;
     private final BankAccountService bankAccountService;
 
-    public TransactionService(TransactionRepository transactionRepository, BankAccountRepository bankAccountRepository, TransactionTypeRepository transactionTypeRepository, BankAccountService bankAccountService) {
+    public TransactionService(TransactionRepository transactionRepository, BankAccountRepository bankAccountRepository, TransactionTypeRepository transactionTypeRepository, UserService userService, BankAccountService bankAccountService) {
         this.transactionRepository = transactionRepository;
         this.bankAccountRepository = bankAccountRepository;
         this.transactionTypeRepository = transactionTypeRepository;
+        this.userService = userService;
         this.bankAccountService = bankAccountService;
     }
 
@@ -68,6 +67,9 @@ public class TransactionService {
     }
 
     public List<Transaction> findByUserIdAndTransactionTypeId(int userId, int transactionTypeId) {
+        // Valida se o usuário existe
+        userService.findById(userId);
+
         return transactionRepository.findByBankAccount_UserIdAndTransactionTypeId(userId, transactionTypeId);
     }
 

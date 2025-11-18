@@ -3,6 +3,7 @@ package br.com.fiap.fintech.controller;
 import br.com.fiap.fintech.model.TransactionCategory;
 import br.com.fiap.fintech.service.TransactionCategoryService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,32 +20,39 @@ public class TransactionCategoryController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public TransactionCategory register(@RequestBody TransactionCategory category) {
-        return transactionCategoryService.register(category);
+    public ResponseEntity<TransactionCategory> register(@RequestBody TransactionCategory category) {
+        TransactionCategory registered = transactionCategoryService.register(category);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(registered);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public TransactionCategory findById(@PathVariable int id) {
-        return transactionCategoryService.findById(id);
+    public ResponseEntity<TransactionCategory> findById(@PathVariable int id) {
+        TransactionCategory found = transactionCategoryService.findById(id);
+
+        return ResponseEntity.ok(found);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<TransactionCategory> findAll() {
-        return transactionCategoryService.findAll();
+    public ResponseEntity<List<TransactionCategory>> findAll() {
+        List<TransactionCategory> found = transactionCategoryService.findAll();
+
+        return ResponseEntity.ok(found);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public TransactionCategory update(@PathVariable int id, @RequestBody TransactionCategory category) {
-        return transactionCategoryService.update(id, category);
+    public ResponseEntity<TransactionCategory> update(@PathVariable int id, @RequestBody TransactionCategory category) {
+        TransactionCategory updated = transactionCategoryService.update(id, category);
+
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable int id) {
         transactionCategoryService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -3,6 +3,7 @@ package br.com.fiap.fintech.controller;
 import br.com.fiap.fintech.model.Branch;
 import br.com.fiap.fintech.service.BranchService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,32 +20,39 @@ public class BranchController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Branch register(@RequestBody Branch branch) {
-        return branchService.register(branch);
+    public ResponseEntity<Branch> register(@RequestBody Branch branch) {
+        Branch registered = branchService.register(branch);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(registered);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Branch findById(@PathVariable int id) {
-        return branchService.findById(id);
+    public ResponseEntity<Branch> findById(@PathVariable int id) {
+        Branch found = branchService.findById(id);
+
+        return ResponseEntity.ok(found);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Branch> findAll() {
-        return branchService.findAll();
+    public ResponseEntity<List<Branch>> findAll() {
+        List<Branch> found = branchService.findAll();
+
+        return ResponseEntity.ok(found);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Branch update(@PathVariable int id, @RequestBody Branch branch) {
-        return branchService.update(id, branch);
+    public ResponseEntity<Branch> update(@PathVariable int id, @RequestBody Branch branch) {
+        Branch updated = branchService.update(id, branch);
+
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable int id) {
         branchService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

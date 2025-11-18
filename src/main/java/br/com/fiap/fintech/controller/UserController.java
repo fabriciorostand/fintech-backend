@@ -20,9 +20,7 @@ import java.util.List;
 public class UserController {
     // Attributes
     private final UserService userService;
-
     private final TransactionService transactionService;
-
     private final BankAccountService bankAccountService;
 
     // Constructors
@@ -36,64 +34,68 @@ public class UserController {
 
     // Responsável por criar um usuário no DB
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public User register(@RequestBody User user) {
-        return userService.register(user);
+    public ResponseEntity<User> register(@RequestBody User user) {
+        User registered = userService.register(user);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(registered);
     }
 
     // Responsável por consultar um usuário por id no DB
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public User findById(@PathVariable int id) {
-        return userService.findById(id);
+    public ResponseEntity<User> findById(@PathVariable int id) {
+        User found = userService.findById(id);
+
+        return ResponseEntity.ok(found);
     }
 
     // Responsável por consultar todos usuários no DB
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<User> findAll() {
-        return userService.findAll();
+    public ResponseEntity<List<User>> findAll() {
+        List<User> found = userService.findAll();
+
+        return ResponseEntity.ok(found);
     }
 
     // Responsável por consultar todas as transações de um usuário
     @GetMapping("/{id}/transactions")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Transaction> findByUserId(@PathVariable int id) {
+    public ResponseEntity<List<Transaction>> findByUserId(@PathVariable int id) {
         // Valida se o usuário existe
         userService.findById(id);
-        // Busca as transações através do serviço apropriado
-        return transactionService.findByUserId(id);
+        // Busca as transações através do service apropriado
+        return ResponseEntity.ok(transactionService.findByUserId(id));
     }
 
     // Responsável por consultar todas as contas bancárias de um usuário
     @GetMapping("/{id}/bank-accounts")
-    @ResponseStatus(HttpStatus.OK)
-    public List<BankAccount> findBankAccountsByUserId(@PathVariable int id) {
+    public ResponseEntity<List<BankAccount>> findBankAccountsByUserId(@PathVariable int id) {
         // Valida se o usuário existe
         userService.findById(id);
-        // Busca as contas bancárias através do serviço apropriado
-        return bankAccountService.findByUserId(id);
+        // Busca as contas bancárias através do service apropriado
+        return ResponseEntity.ok(bankAccountService.findByUserId(id));
     }
 
-    // Responsável por consultar todas as transações de um usuário de determinado tipo
+    // Responsável por consultar todas as transações de determinado tipo de um usuário
     @GetMapping("/{id}/transactions/transaction-types/{transactionTypeId}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Transaction> findByUserIdAndTransactionTypeId(@PathVariable int id, @PathVariable int transactionTypeId) {
-        return transactionService.findByUserIdAndTransactionTypeId(id, transactionTypeId);
+    public ResponseEntity<List<Transaction>> findByUserIdAndTransactionTypeId(@PathVariable int id, @PathVariable int transactionTypeId) {
+        return ResponseEntity.ok(transactionService.findByUserIdAndTransactionTypeId(id, transactionTypeId));
     }
 
     // Responsável por atualizar um usuário no DB
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public User update(@PathVariable int id, @RequestBody User user) {
-        return userService.update(id, user);
+    public ResponseEntity<User> update(@PathVariable int id, @RequestBody User user) {
+        User updated = userService.update(id, user);
+
+        return ResponseEntity.ok(updated);
     }
 
     // Responsável por excluir um usuário no DB
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable int id) {
         userService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     // Responsável por autenticar um usuário

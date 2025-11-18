@@ -3,6 +3,7 @@ package br.com.fiap.fintech.controller;
 import br.com.fiap.fintech.model.Bank;
 import br.com.fiap.fintech.service.BankService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,32 +20,39 @@ public class BankController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Bank register(@RequestBody Bank bank) {
-        return bankService.register(bank);
+    public ResponseEntity<Bank> register(@RequestBody Bank bank) {
+        Bank registered = bankService.register(bank);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(registered);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Bank findById(@PathVariable int id) {
-        return bankService.findById(id);
+    public ResponseEntity<Bank> findById(@PathVariable int id) {
+        Bank found = bankService.findById(id);
+
+        return ResponseEntity.ok(found);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Bank> findAll() {
-        return bankService.findAll();
+    public ResponseEntity<List<Bank>> findAll() {
+        List<Bank> found = bankService.findAll();
+
+        return ResponseEntity.ok(found);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Bank update(@PathVariable int id, @RequestBody Bank bank) {
-        return bankService.update(id, bank);
+    public ResponseEntity<Bank> update(@PathVariable int id, @RequestBody Bank bank) {
+        Bank updated = bankService.update(id, bank);
+
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable int id) {
         bankService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

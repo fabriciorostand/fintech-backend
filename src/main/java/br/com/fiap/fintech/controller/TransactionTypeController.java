@@ -3,6 +3,7 @@ package br.com.fiap.fintech.controller;
 import br.com.fiap.fintech.model.TransactionType;
 import br.com.fiap.fintech.service.TransactionTypeService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,32 +20,39 @@ public class TransactionTypeController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public TransactionType register(@RequestBody TransactionType transactionType) {
-        return transactionTypeService.register(transactionType);
+    public ResponseEntity<TransactionType> register(@RequestBody TransactionType transactionType) {
+        TransactionType registered = transactionTypeService.register(transactionType);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(registered);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public TransactionType findById(@PathVariable int id) {
-        return transactionTypeService.findById(id);
+    public ResponseEntity<TransactionType> findById(@PathVariable int id) {
+        TransactionType found = transactionTypeService.findById(id);
+
+        return ResponseEntity.ok(found);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<TransactionType> findAll() {
-        return transactionTypeService.findAll();
+    public ResponseEntity<List<TransactionType>> findAll() {
+        List<TransactionType> found = transactionTypeService.findAll();
+
+        return ResponseEntity.ok(found);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public TransactionType update(@PathVariable int id, @RequestBody TransactionType transactionType) {
-        return transactionTypeService.update(id, transactionType);
+    public ResponseEntity<TransactionType> update(@PathVariable int id, @RequestBody TransactionType transactionType) {
+        TransactionType updated = transactionTypeService.update(id, transactionType);
+
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable int id) {
         transactionTypeService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
