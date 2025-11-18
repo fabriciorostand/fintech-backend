@@ -59,7 +59,7 @@ public class UserService {
         if (user.isPresent() && user.get().getPassword().equals(password)) {
             return user.get();
         } else {
-            return null;
+            throw new RuntimeException("Erro ao autenticar: email ou senha inválidos!");
         }
     }
 }

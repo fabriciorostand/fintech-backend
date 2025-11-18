@@ -101,24 +101,29 @@ public class UserController {
     // Responsável por autenticar um usuário
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        User user = userService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+        try {
+            User user = userService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
 
-        if (user != null) {
+
             LoginResponse response = new LoginResponse(
                     true,
                     "Login realizado com sucesso!",
                     user.getId(),
                     user.getName()
             );
+
             return ResponseEntity.ok(response);
-        } else {
+        } catch (RuntimeException e) {
             LoginResponse response = new LoginResponse(
                     false,
-                    "Email ou senha inválidos!",
+                    e.getMessage(),
                     null,
                     null
             );
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(response);
         }
     }
 }
