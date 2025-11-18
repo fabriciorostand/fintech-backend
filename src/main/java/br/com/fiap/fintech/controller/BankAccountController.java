@@ -5,6 +5,7 @@ import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/bank-accounts")
 @CrossOrigin(origins = "http://localhost:5173")
 public class BankAccountController {
+    // Attributes
     private final BankAccountService bankAccountService;
     private final TransactionService transactionService;
 
@@ -22,51 +24,57 @@ public class BankAccountController {
         this.transactionService = transactionService;
     }
 
+    // Methods
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public BankAccount register(@RequestBody BankAccount bankAccount) {
-        return bankAccountService.register(bankAccount);
+    public ResponseEntity<BankAccount> register(@RequestBody BankAccount bankAccount) {
+        BankAccount registered = bankAccountService.register(bankAccount);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(registered);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public BankAccount findById(@PathVariable int id) {
-        return bankAccountService.findById(id);
+    public ResponseEntity<BankAccount> findById(@PathVariable int id) {
+        BankAccount found = bankAccountService.findById(id);
+
+        return ResponseEntity.ok(found);
     }
 
     @GetMapping("/{id}/transactions")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Transaction> findByBankAccountId(@PathVariable int id) {
+    public ResponseEntity<List<Transaction>> findByBankAccountId(@PathVariable int id) {
         // Valida se a conta existe
         bankAccountService.findById(id);
-        // Busca as transações através do serviço apropriado
-        return transactionService.findByBankAccountId(id);
+        // Busca as transações através do service apropriado
+        return ResponseEntity.ok(transactionService.findByBankAccountId(id));
     }
 
     @GetMapping("/{id}/transactions/transaction-types/{transactionTypeId}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Transaction> findByBankAccountIdAndTransactionTypeId(@PathVariable int id,@PathVariable int transactionTypeId) {
+    public ResponseEntity<List<Transaction>> findByBankAccountIdAndTransactionTypeId(@PathVariable int id,@PathVariable int transactionTypeId) {
         // Valida se a conta existe
         bankAccountService.findById(id);
-        // Busca as transações através do serviço apropriado
-        return transactionService.findByBankAccountIdAndTransactionTypeId(id, transactionTypeId);
+        // Busca as transações através do service apropriado
+        return ResponseEntity.ok(transactionService.findByBankAccountIdAndTransactionTypeId(id, transactionTypeId));
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<BankAccount> findAll() {
-        return bankAccountService.findAll();
+    public ResponseEntity<List<BankAccount>> findAll() {
+        List<BankAccount> found = bankAccountService.findAll();
+
+        return ResponseEntity.ok(found);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public BankAccount update(@PathVariable int id, @RequestBody BankAccount bankAccount) {
-        return bankAccountService.update(id, bankAccount);
+    public ResponseEntity<BankAccount> update(@PathVariable int id, @RequestBody BankAccount bankAccount) {
+        BankAccount updated = bankAccountService.update(id, bankAccount);
+
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable int id) {
         bankAccountService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
