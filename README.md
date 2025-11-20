@@ -171,7 +171,3 @@ A aplicação disponibiliza os seguintes recursos:
   ```properties
   server.port=8081
   ```
-
-## 📄 Licença
-
-Este projeto está sob a licença especificada no arquivo [LICENSE](LICENSE).
