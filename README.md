@@ -8,12 +8,12 @@ API REST para gestão financeira pessoal, permitindo controle de contas bancári
 
 ## 🚀 Tecnologias Utilizadas
 
+- **Java 21** - Linguagem de programação
 - **Spring Boot 3.5.7** - Framework principal
 - **Spring Data JPA** - Persistência de dados
 - **Spring Web** - API REST
 - **Spring Validation** - Validação de dados
 - **Oracle JDBC Driver (ojdbc11)** - Conexão com Oracle Database
-- **Java 21** - Linguagem de programação
 
 ## 📦 Pré-requisitos
 
