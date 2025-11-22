@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bank-accounts")
-@CrossOrigin(origins = "http://localhost:5173")
 public class BankAccountController {
     // Attributes
     private final BankAccountService bankAccountService;
