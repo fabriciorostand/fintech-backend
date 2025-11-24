@@ -2,19 +2,19 @@ package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.TransactionType;
 import br.com.fiap.fintech.repository.TransactionTypeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TransactionTypeService {
+    // Attributes
     private final TransactionTypeRepository transactionTypeRepository;
 
-    public TransactionTypeService(TransactionTypeRepository transactionTypeRepository) {
-        this.transactionTypeRepository = transactionTypeRepository;
-    }
-
+    // Methods
     public TransactionType register(TransactionType type) {
         return transactionTypeRepository.save(type);
     }

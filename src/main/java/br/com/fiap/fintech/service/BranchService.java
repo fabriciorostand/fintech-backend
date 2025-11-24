@@ -2,19 +2,19 @@ package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.Branch;
 import br.com.fiap.fintech.repository.BranchRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BranchService {
+    // Attributes
     private final BranchRepository branchRepository;
 
-    public BranchService(BranchRepository branchRepository) {
-        this.branchRepository = branchRepository;
-    }
-
+    // Methods
     public Branch register(Branch branch) {
         return branchRepository.save(branch);
     }

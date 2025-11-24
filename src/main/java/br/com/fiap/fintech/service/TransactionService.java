@@ -6,6 +6,7 @@ import br.com.fiap.fintech.model.TransactionType;
 import br.com.fiap.fintech.repository.BankAccountRepository;
 import br.com.fiap.fintech.repository.TransactionRepository;
 import br.com.fiap.fintech.repository.TransactionTypeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,21 +15,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TransactionService {
+    // Attributes
     private final TransactionRepository transactionRepository;
     private final BankAccountRepository bankAccountRepository;
     private final TransactionTypeRepository transactionTypeRepository;
     private final UserService userService;
     private final BankAccountService bankAccountService;
 
-    public TransactionService(TransactionRepository transactionRepository, BankAccountRepository bankAccountRepository, TransactionTypeRepository transactionTypeRepository, UserService userService, BankAccountService bankAccountService) {
-        this.transactionRepository = transactionRepository;
-        this.bankAccountRepository = bankAccountRepository;
-        this.transactionTypeRepository = transactionTypeRepository;
-        this.userService = userService;
-        this.bankAccountService = bankAccountService;
-    }
-
+    // Methods
     @Transactional
     public Transaction register(Transaction transaction) {
         Transaction savedTransaction = transactionRepository.save(transaction);

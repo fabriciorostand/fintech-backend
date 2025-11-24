@@ -2,6 +2,7 @@ package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.service.TransactionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/transactions")
+@RequiredArgsConstructor
 public class TransactionController {
+    // Attributes
     private final TransactionService transactionService;
 
-    // Constructors
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
-
+    // Methods
     @PostMapping
     public ResponseEntity<Transaction> register(@RequestBody Transaction transaction) {
         Transaction registered = transactionService.register(transaction);

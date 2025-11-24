@@ -2,19 +2,19 @@ package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.Bank;
 import br.com.fiap.fintech.repository.BankRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BankService {
+    // Attributes
     private final BankRepository bankRepository;
 
-    public BankService(BankRepository bankRepository) {
-        this.bankRepository = bankRepository;
-    }
-
+    // Methods
     public Bank register(Bank bank) {
         return bankRepository.save(bank);
     }

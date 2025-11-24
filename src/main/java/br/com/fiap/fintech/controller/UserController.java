@@ -8,6 +8,7 @@ import br.com.fiap.fintech.model.User;
 import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
 import br.com.fiap.fintech.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +17,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
     // Attributes
     private final UserService userService;
     private final TransactionService transactionService;
     private final BankAccountService bankAccountService;
-
-    // Constructors
-    public UserController(UserService userService, TransactionService transactionService, BankAccountService bankAccountService) {
-        this.userService = userService;
-        this.transactionService = transactionService;
-        this.bankAccountService = bankAccountService;
-    }
 
     // Methods
 

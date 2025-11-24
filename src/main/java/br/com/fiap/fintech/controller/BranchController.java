@@ -2,6 +2,7 @@ package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.model.Branch;
 import br.com.fiap.fintech.service.BranchService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/branches")
+@RequiredArgsConstructor
 public class BranchController {
+    // Attributes
     private final BranchService branchService;
 
-    // Constructors
-    public BranchController(BranchService branchService) {
-        this.branchService = branchService;
-    }
-
+    // Methods
     @PostMapping
     public ResponseEntity<Branch> register(@RequestBody Branch branch) {
         Branch registered = branchService.register(branch);

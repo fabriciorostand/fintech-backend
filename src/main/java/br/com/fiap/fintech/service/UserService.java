@@ -2,19 +2,19 @@ package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.User;
 import br.com.fiap.fintech.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
+    // Attributes
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
+    // Methods
     public User register(User user) {
         return userRepository.save(user);
     }

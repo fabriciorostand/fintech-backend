@@ -1,9 +1,15 @@
 package br.com.fiap.fintech.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "T_FIN_BANCO")
+@Getter @Setter
+@NoArgsConstructor
 public class Bank {
     // Attributes
     @Id
@@ -17,48 +23,4 @@ public class Bank {
 
     @Column(name = "NR_BANCO")
     private String number;
-
-    // Getters
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    // Setters
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    // Constructors
-    public Bank() {
-
-    }
-
-    public Bank(int id, String name, String number) {
-        this.id = id;
-        this.name = name;
-        this.number = number;
-    }
-
-    public Bank(String name, String number) {
-        this.name = name;
-        this.number = number;
-    }
-
-    // Methods
-    public void displayBank() {
-        System.out.println("\nNome do banco: " + getName());
-        System.out.println("Número do banco: " + getNumber());
-    }
 }

@@ -2,6 +2,7 @@ package br.com.fiap.fintech.service;
 
 import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.repository.BankAccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,13 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BankAccountService {
+    // Attributes
     private final BankAccountRepository bankAccountRepository;
 
-    public BankAccountService(BankAccountRepository bankAccountRepository) {
-        this.bankAccountRepository = bankAccountRepository;
-    }
-
+    // Methods
     public BankAccount register(BankAccount bankAccount) {
         return bankAccountRepository.save(bankAccount);
     }

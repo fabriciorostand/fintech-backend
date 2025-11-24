@@ -1,11 +1,16 @@
 package br.com.fiap.fintech.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "T_FIN_LANCAMENTO")
+@Getter @Setter
+@NoArgsConstructor
 public class Transaction {
     // Attributes
     @Id
@@ -38,83 +43,4 @@ public class Transaction {
 
     @Column(name = "DS_LANCAMENTO")
     private String description;
-
-    // Getters
-    public int getId() {
-        return id;
-    }
-
-    public int getBankAccountId() {
-        return bankAccountId;
-    }
-
-    public int getTransactionTypeId() {
-        return transactionTypeId;
-    }
-
-    public int getTransactionCategoryId() {
-        return transactionCategoryId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    //Setters
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    // Constructors
-    public Transaction() {
-
-    }
-
-    public Transaction(int bankAccountId, int transactionTypeId, int transactionCategoryId, String name, double value, LocalDate date, String description) {
-        this.bankAccountId = bankAccountId;
-        this.transactionTypeId = transactionTypeId;
-        this.transactionCategoryId = transactionCategoryId;
-        this.name = name;
-        this.value = value;
-        this.date = date;
-        this.description = description;
-    }
-
-    public Transaction(int id, int bankAccountId, int transactionTypeId, int transactionCategoryId, String name, double value, LocalDate date, String description) {
-        this.id = id;
-        this.bankAccountId = bankAccountId;
-        this.transactionTypeId = transactionTypeId;
-        this.transactionCategoryId = transactionCategoryId;
-        this.name = name;
-        this.value = value;
-        this.date = date;
-        this.description = description;
-    }
-
-    // Methods
-
 }

@@ -2,6 +2,7 @@ package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.model.Bank;
 import br.com.fiap.fintech.service.BankService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/banks")
+@RequiredArgsConstructor
 public class BankController {
+    // Attributes
     private final BankService bankService;
 
-    // Constructors
-    public BankController(BankService bankService) {
-        this.bankService = bankService;
-    }
-
+    // Methods
     @PostMapping
     public ResponseEntity<Bank> register(@RequestBody Bank bank) {
         Bank registered = bankService.register(bank);

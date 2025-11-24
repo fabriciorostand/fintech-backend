@@ -4,6 +4,7 @@ import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,16 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bank-accounts")
+@RequiredArgsConstructor
 public class BankAccountController {
     // Attributes
     private final BankAccountService bankAccountService;
     private final TransactionService transactionService;
-
-    // Constructors
-    public BankAccountController(BankAccountService bankAccountService, TransactionService transactionService) {
-        this.bankAccountService = bankAccountService;
-        this.transactionService = transactionService;
-    }
 
     // Methods
     @PostMapping

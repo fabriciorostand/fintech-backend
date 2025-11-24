@@ -2,6 +2,7 @@ package br.com.fiap.fintech.controller;
 
 import br.com.fiap.fintech.model.TransactionCategory;
 import br.com.fiap.fintech.service.TransactionCategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/transaction-categories")
+@RequiredArgsConstructor
 public class TransactionCategoryController {
+    // Attributes
     private final TransactionCategoryService transactionCategoryService;
 
-    // Constructors
-    public TransactionCategoryController(TransactionCategoryService transactionCategoryService) {
-        this.transactionCategoryService = transactionCategoryService;
-    }
-
+    // Methods
     @PostMapping
     public ResponseEntity<TransactionCategory> register(@RequestBody TransactionCategory category) {
         TransactionCategory registered = transactionCategoryService.register(category);
