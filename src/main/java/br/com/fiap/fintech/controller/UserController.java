@@ -1,9 +1,6 @@
 package br.com.fiap.fintech.controller;
 
-import br.com.fiap.fintech.dto.LoginRequest;
-import br.com.fiap.fintech.dto.LoginResponse;
-import br.com.fiap.fintech.model.BankAccount;
-import br.com.fiap.fintech.model.Transaction;
+import br.com.fiap.fintech.dto.*;
 import br.com.fiap.fintech.model.User;
 import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
@@ -28,60 +25,84 @@ public class UserController {
 
     // Responsável por criar um usuário no DB
     @PostMapping
-    public ResponseEntity<User> register(@RequestBody User user) {
-        User registered = userService.register(user);
+    public ResponseEntity<UserResponse> register(@RequestBody UserRequest request) {
+        User user = userService.register(request);
+
+        UserResponse response = new UserResponse(user);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(registered);
+                .body(response);
     }
 
     // Responsável por consultar um usuário por id no DB
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable int id) {
+    public ResponseEntity<UserResponse> findById(@PathVariable int id) {
         User found = userService.findById(id);
 
-        return ResponseEntity.ok(found);
+        UserResponse response = new UserResponse(found);
+
+        return ResponseEntity.ok(response);
     }
 
     // Responsável por consultar todos usuários no DB
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<List<UserResponse>> findAll() {
         List<User> found = userService.findAll();
 
-        return ResponseEntity.ok(found);
+        List<UserResponse> response = found.stream()
+                .map(UserResponse::new)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     // Responsável por consultar todas as transações de um usuário
     @GetMapping("/{id}/transactions")
-    public ResponseEntity<List<Transaction>> findByUserId(@PathVariable int id) {
+    public ResponseEntity<List<TransactionResponse>> findByUserId(@PathVariable int id) {
         // Valida se o usuário existe
         userService.findById(id);
+
+        List<TransactionResponse> response = transactionService.findByUserId(id).stream()
+                .map(TransactionResponse::new)
+                .toList();
+
         // Busca as transações através do service apropriado
-        return ResponseEntity.ok(transactionService.findByUserId(id));
+        return ResponseEntity.ok(response);
     }
 
     // Responsável por consultar todas as contas bancárias de um usuário
     @GetMapping("/{id}/bank-accounts")
-    public ResponseEntity<List<BankAccount>> findBankAccountsByUserId(@PathVariable int id) {
+    public ResponseEntity<List<BankAccountResponse>> findBankAccountsByUserId(@PathVariable int id) {
         // Valida se o usuário existe
         userService.findById(id);
+
+        List<BankAccountResponse> response = bankAccountService.findByUserId(id).stream()
+                .map(BankAccountResponse::new)
+                .toList();
+
         // Busca as contas bancárias através do service apropriado
-        return ResponseEntity.ok(bankAccountService.findByUserId(id));
+        return ResponseEntity.ok(response);
     }
 
     // Responsável por consultar todas as transações de determinado tipo de um usuário
     @GetMapping("/{id}/transactions/transaction-types/{transactionTypeId}")
-    public ResponseEntity<List<Transaction>> findByUserIdAndTransactionTypeId(@PathVariable int id, @PathVariable int transactionTypeId) {
-        return ResponseEntity.ok(transactionService.findByUserIdAndTransactionTypeId(id, transactionTypeId));
+    public ResponseEntity<List<TransactionResponse>> findByUserIdAndTransactionTypeId(@PathVariable int id, @PathVariable int transactionTypeId) {
+        List<TransactionResponse> response = transactionService.findByUserIdAndTransactionTypeId(id, transactionTypeId).stream()
+                .map(TransactionResponse::new)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     // Responsável por atualizar um usuário no DB
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable int id, @RequestBody User user) {
+    public ResponseEntity<UserResponse> update(@PathVariable int id, @RequestBody User user) {
         User updated = userService.update(id, user);
 
-        return ResponseEntity.ok(updated);
+        UserResponse response = new UserResponse(updated);
+
+        return ResponseEntity.ok(response);
     }
 
     // Responsável por excluir um usuário no DB

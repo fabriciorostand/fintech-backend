@@ -1,5 +1,6 @@
 package br.com.fiap.fintech.controller;
 
+import br.com.fiap.fintech.dto.TransactionResponse;
 import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.service.TransactionService;
 import lombok.RequiredArgsConstructor;
@@ -18,33 +19,43 @@ public class TransactionController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<Transaction> register(@RequestBody Transaction transaction) {
+    public ResponseEntity<TransactionResponse> register(@RequestBody Transaction transaction) {
         Transaction registered = transactionService.register(transaction);
+
+        TransactionResponse response = new TransactionResponse(registered);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(registered);
+                .body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transaction> findById(@PathVariable int id) {
+    public ResponseEntity<TransactionResponse> findById(@PathVariable int id) {
         Transaction found = transactionService.findById(id);
 
-        return ResponseEntity.ok(found);
+        TransactionResponse response = new TransactionResponse(found);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<Transaction>> findAll() {
+    public ResponseEntity<List<TransactionResponse>> findAll() {
         List<Transaction> found = transactionService.findAll();
 
-        return ResponseEntity.ok(found);
+        List<TransactionResponse> response = found.stream()
+                .map(TransactionResponse::new)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Transaction> update(@PathVariable int id, @RequestBody Transaction transaction) {
+    public ResponseEntity<TransactionResponse> update(@PathVariable int id, @RequestBody Transaction transaction) {
         Transaction updated = transactionService.update(id, transaction);
 
-        return ResponseEntity.ok(updated);
+        TransactionResponse response = new TransactionResponse(updated);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

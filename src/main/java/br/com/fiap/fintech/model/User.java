@@ -1,5 +1,6 @@
 package br.com.fiap.fintech.model;
 
+import br.com.fiap.fintech.dto.UserRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,11 @@ public class User {
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BankAccount> bankAccounts;
+
+    // Construtor que inicializa um Medico a partir de um UserRequest
+    public User(UserRequest request) {
+        this.name = request.getName();
+        this.email = request.getEmail();
+        this.password = request.getPassword();
+    }
 }
