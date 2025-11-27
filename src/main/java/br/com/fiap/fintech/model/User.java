@@ -1,6 +1,6 @@
 package br.com.fiap.fintech.model;
 
-import br.com.fiap.fintech.dto.UserRequest;
+import br.com.fiap.fintech.dto.RegisterRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +33,7 @@ public class User {
     private List<BankAccount> bankAccounts;
 
     // Construtor que inicializa um Medico a partir de um UserRequest
-    public User(UserRequest request) {
+    public User(RegisterRequest request) {
         this.name = request.getName();
         this.email = request.getEmail();
         this.password = request.getPassword();

@@ -6,7 +6,6 @@ import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
 import br.com.fiap.fintech.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,18 +21,6 @@ public class UserController {
     private final BankAccountService bankAccountService;
 
     // Methods
-
-    // Responsável por criar um usuário no DB
-    @PostMapping
-    public ResponseEntity<UserResponse> register(@RequestBody UserRequest request) {
-        User user = userService.register(request);
-
-        UserResponse response = new UserResponse(user);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
-    }
 
     // Responsável por consultar um usuário por id no DB
     @GetMapping("/{id}")
@@ -111,34 +98,5 @@ public class UserController {
         userService.delete(id);
 
         return ResponseEntity.noContent().build();
-    }
-
-    // Responsável por autenticar um usuário
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        try {
-            User user = userService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
-
-
-            LoginResponse response = new LoginResponse(
-                    true,
-                    "Login realizado com sucesso!",
-                    user.getId(),
-                    user.getName()
-            );
-
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            LoginResponse response = new LoginResponse(
-                    false,
-                    e.getMessage(),
-                    null,
-                    null
-            );
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(response);
-        }
     }
 }

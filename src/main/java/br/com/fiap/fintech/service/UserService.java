@@ -1,6 +1,6 @@
 package br.com.fiap.fintech.service;
 
-import br.com.fiap.fintech.dto.UserRequest;
+import br.com.fiap.fintech.dto.RegisterRequest;
 import br.com.fiap.fintech.model.User;
 import br.com.fiap.fintech.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     // Methods
-    public User register(UserRequest request) {
+    public User register(RegisterRequest request) {
         User user = new User(request);
 
         return userRepository.save(user);
