@@ -24,7 +24,7 @@ public class AuthController {
 
     // Methods
 
-    // Responsável por registrar um usuário
+    // Responsável por cadastrar um usuário
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody @Valid RegisterRequest request) {
         User user = userService.register(request);

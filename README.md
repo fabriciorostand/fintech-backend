@@ -14,6 +14,8 @@ API REST para gestão financeira pessoal, permitindo controle de contas bancári
 - **Spring Web** - API REST
 - **Spring Validation** - Validação de dados
 - **Oracle JDBC Driver (ojdbc11)** - Conexão com Oracle Database
+- **Lombok** - Redução de código repetitivo
+- **Spring Boot DevTools** - Automatização da reinicialização da aplicação durante desenvolvimento
 
 ## 📦 Pré-requisitos
 
@@ -109,17 +111,20 @@ fintech-backend/
 ├── src/
 │   ├── main/
 │   │   ├── java/br/com/fiap/fintech/
-│   │   │   ├── controller/      # Controllers REST
-│   │   │   ├── dto/              # Data Transfer Objects
-│   │   │   ├── model/            # Entidades JPA
-│   │   │   ├── repository/       # Repositórios JPA
-│   │   │   ├── service/          # Lógica de negócio
+│   │   │   ├── config/ 
+│   │   │   │   └── CorsConfiguration.java    # Configuração CORS
+│   │   │   ├── controller/               # Controllers REST
+│   │   │   ├── dto/                      # Data Transfer Objects
+│   │   │   ├── model/                    # Entidades JPA
+│   │   │   ├── repository/               # Repositórios JPA
+│   │   │   ├── service/                  # Lógica de negócio
 │   │   │   └── FintechApplication.java
 │   │   └── resources/
-│   │       └── application.properties
-│   └── test/                     # Testes unitários
-├── pom.xml                       # Configuração Maven
-└── README.md                     # Este arquivo
+│   │       └── application.properties       # Configurações principais
+│   └── test/                             # Testes unitários
+│       └── application-test.properties     # Configurações de teste              
+├── pom.xml                               # Configuração Maven
+└── README.md                             # Este arquivo
 ```
 
 ## 🔧 Comandos Úteis
@@ -146,15 +151,16 @@ fintech-backend/
 
 ## 📝 Endpoints da API
 
-A aplicação disponibiliza os seguintes recursos:
+A API está disponível no prefixo `/api` e oferece os seguintes recursos:
 
+- `/auth` - Gerenciamento de autenticação
 - `/users` - Gerenciamento de usuários
 - `/banks` - Gerenciamento de bancos
 - `/branches` - Gerenciamento de agências
 - `/bank-accounts` - Gerenciamento de contas bancárias
 - `/transactions` - Gerenciamento de transações
-- `/transaction-types` - Tipos de transação
-- `/transaction-categories` - Categorias de transação
+- `/transaction-types` - Gerenciamento de tipos de transação
+- `/transaction-categories` - Gerenciamento de categorias de transação
 
 ## 🐛 Solução de Problemas
 

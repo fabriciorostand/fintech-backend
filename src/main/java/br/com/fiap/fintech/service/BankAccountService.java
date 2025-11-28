@@ -16,6 +16,7 @@ public class BankAccountService {
     private final BankAccountRepository bankAccountRepository;
 
     // Methods
+    @Transactional
     public BankAccount register(BankAccount bankAccount) {
         return bankAccountRepository.save(bankAccount);
     }

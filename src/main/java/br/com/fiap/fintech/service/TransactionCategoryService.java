@@ -4,6 +4,7 @@ import br.com.fiap.fintech.model.TransactionCategory;
 import br.com.fiap.fintech.repository.TransactionCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public class TransactionCategoryService {
     private final TransactionCategoryRepository transactionCategoryRepository;
 
     // Methods
+    @Transactional
     public TransactionCategory register(TransactionCategory category) {
         return transactionCategoryRepository.save(category);
     }

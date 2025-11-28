@@ -4,6 +4,7 @@ import br.com.fiap.fintech.model.Branch;
 import br.com.fiap.fintech.repository.BranchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public class BranchService {
     private final BranchRepository branchRepository;
 
     // Methods
+    @Transactional
     public Branch register(Branch branch) {
         return branchRepository.save(branch);
     }

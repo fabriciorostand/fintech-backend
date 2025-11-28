@@ -5,6 +5,7 @@ import br.com.fiap.fintech.model.User;
 import br.com.fiap.fintech.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     // Methods
+    @Transactional
     public User register(RegisterRequest request) {
         User user = new User(request);
 

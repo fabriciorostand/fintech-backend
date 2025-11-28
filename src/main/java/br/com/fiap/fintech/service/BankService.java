@@ -4,6 +4,7 @@ import br.com.fiap.fintech.model.Bank;
 import br.com.fiap.fintech.repository.BankRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public class BankService {
     private final BankRepository bankRepository;
 
     // Methods
+    @Transactional
     public Bank register(Bank bank) {
         return bankRepository.save(bank);
     }
