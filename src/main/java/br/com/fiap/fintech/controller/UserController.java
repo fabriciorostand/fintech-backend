@@ -6,6 +6,8 @@ import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
 import br.com.fiap.fintech.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,13 +48,11 @@ public class UserController {
 
     // Responsável por consultar todas as transações de um usuário
     @GetMapping("/{id}/transactions")
-    public ResponseEntity<List<TransactionResponse>> findByUserId(@PathVariable int id) {
+    public ResponseEntity<Page<TransactionResponse>> findByUserId(@PathVariable int id, Pageable pageable) {
         // Valida se o usuário existe
         userService.findById(id);
 
-        List<TransactionResponse> response = transactionService.findByUserId(id).stream()
-                .map(TransactionResponse::new)
-                .toList();
+        Page<TransactionResponse> response = transactionService.findByUserId(id, pageable).map(TransactionResponse::new);
 
         // Busca as transações através do service apropriado
         return ResponseEntity.ok(response);
@@ -74,10 +74,8 @@ public class UserController {
 
     // Responsável por consultar todas as transações de determinado tipo de um usuário
     @GetMapping("/{id}/transactions/transaction-types/{transactionTypeId}")
-    public ResponseEntity<List<TransactionResponse>> findByUserIdAndTransactionTypeId(@PathVariable int id, @PathVariable int transactionTypeId) {
-        List<TransactionResponse> response = transactionService.findByUserIdAndTransactionTypeId(id, transactionTypeId).stream()
-                .map(TransactionResponse::new)
-                .toList();
+    public ResponseEntity<Page<TransactionResponse>> findByUserIdAndTransactionTypeId(@PathVariable int id, @PathVariable int transactionTypeId, Pageable pageable) {
+        Page<TransactionResponse> response = transactionService.findByUserIdAndTransactionTypeId(id, transactionTypeId, pageable).map(TransactionResponse::new);
 
         return ResponseEntity.ok(response);
     }

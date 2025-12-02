@@ -6,6 +6,8 @@ import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,26 +44,22 @@ public class BankAccountController {
     }
 
     @GetMapping("/{id}/transactions")
-    public ResponseEntity<List<TransactionResponse>> findByBankAccountId(@PathVariable int id) {
+    public ResponseEntity<Page<TransactionResponse>> findByBankAccountId(@PathVariable int id, Pageable pageable) {
         // Valida se a conta existe
         bankAccountService.findById(id);
 
-        List<TransactionResponse> response = transactionService.findByBankAccountId(id).stream()
-                .map(TransactionResponse::new)
-                .toList();
+        Page<TransactionResponse> response = transactionService.findByBankAccountId(id, pageable).map(TransactionResponse::new);
 
         // Busca as transações através do service apropriado
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/transactions/transaction-types/{transactionTypeId}")
-    public ResponseEntity<List<TransactionResponse>> findByBankAccountIdAndTransactionTypeId(@PathVariable int id,@PathVariable int transactionTypeId) {
+    public ResponseEntity<Page<TransactionResponse>> findByBankAccountIdAndTransactionTypeId(@PathVariable int id,@PathVariable int transactionTypeId, Pageable pageable) {
         // Valida se a conta existe
         bankAccountService.findById(id);
 
-        List<TransactionResponse> response = transactionService.findByBankAccountIdAndTransactionTypeId(id, transactionTypeId).stream()
-                .map(TransactionResponse::new)
-                .toList();
+        Page<TransactionResponse> response = transactionService.findByBankAccountIdAndTransactionTypeId(id, transactionTypeId, pageable).map(TransactionResponse::new);
 
         // Busca as transações através do service apropriado
         return ResponseEntity.ok(response);

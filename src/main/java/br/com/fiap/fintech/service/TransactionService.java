@@ -1,16 +1,16 @@
 package br.com.fiap.fintech.service;
 
-import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.model.Transaction;
 import br.com.fiap.fintech.model.TransactionType;
 import br.com.fiap.fintech.repository.BankAccountRepository;
 import br.com.fiap.fintech.repository.TransactionRepository;
 import br.com.fiap.fintech.repository.TransactionTypeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,31 +46,23 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-    public List<Transaction> findByBankAccountId(int bankAccountId) {
-        return transactionRepository.findByBankAccountId(bankAccountId);
+    public Page<Transaction> findByBankAccountId(int bankAccountId, Pageable pageable) {
+        return transactionRepository.findByBankAccountId(bankAccountId, pageable);
     }
 
-    public List<Transaction> findByUserId(int userId) {
-        List<BankAccount> bankAccounts = bankAccountRepository.findByUserId(userId);
-        List<Transaction> allTransactions = new ArrayList<>();
-        
-        for (BankAccount account : bankAccounts) {
-            List<Transaction> transactions = transactionRepository.findByBankAccountId(account.getId());
-            allTransactions.addAll(transactions);
-        }
-        
-        return allTransactions;
+    public Page<Transaction> findByUserId(int userId, Pageable pageable) {
+        return transactionRepository.findByBankAccount_UserId(userId, pageable);
     }
 
-    public List<Transaction> findByUserIdAndTransactionTypeId(int userId, int transactionTypeId) {
+    public Page<Transaction> findByUserIdAndTransactionTypeId(int userId, int transactionTypeId, Pageable pageable) {
         // Valida se o usuário existe
         userService.findById(userId);
 
-        return transactionRepository.findByBankAccount_UserIdAndTransactionTypeId(userId, transactionTypeId);
+        return transactionRepository.findByBankAccount_UserIdAndTransactionTypeId(userId, transactionTypeId, pageable);
     }
 
-    public List<Transaction> findByBankAccountIdAndTransactionTypeId(int bankAccountId, int transactionTypeId) {
-        return transactionRepository.findByBankAccountIdAndTransactionTypeId(bankAccountId, transactionTypeId);
+    public Page<Transaction> findByBankAccountIdAndTransactionTypeId(int bankAccountId, int transactionTypeId, Pageable pageable) {
+        return transactionRepository.findByBankAccountIdAndTransactionTypeId(bankAccountId, transactionTypeId, pageable);
     }
 
     @Transactional
