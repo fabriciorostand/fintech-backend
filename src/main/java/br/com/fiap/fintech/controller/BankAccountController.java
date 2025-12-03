@@ -8,6 +8,8 @@ import br.com.fiap.fintech.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +46,7 @@ public class BankAccountController {
     }
 
     @GetMapping("/{id}/transactions")
-    public ResponseEntity<Page<TransactionResponse>> findByBankAccountId(@PathVariable int id, Pageable pageable) {
+    public ResponseEntity<Page<TransactionResponse>> findByBankAccountId(@PathVariable int id, @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable) {
         // Valida se a conta existe
         bankAccountService.findById(id);
 
@@ -55,7 +57,7 @@ public class BankAccountController {
     }
 
     @GetMapping("/{id}/transactions/transaction-types/{transactionTypeId}")
-    public ResponseEntity<Page<TransactionResponse>> findByBankAccountIdAndTransactionTypeId(@PathVariable int id,@PathVariable int transactionTypeId, Pageable pageable) {
+    public ResponseEntity<Page<TransactionResponse>> findByBankAccountIdAndTransactionTypeId(@PathVariable int id,@PathVariable int transactionTypeId, @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable) {
         // Valida se a conta existe
         bankAccountService.findById(id);
 

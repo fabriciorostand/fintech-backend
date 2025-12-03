@@ -19,7 +19,6 @@ import java.util.Optional;
 public class TransactionService {
     // Attributes
     private final TransactionRepository transactionRepository;
-    private final BankAccountRepository bankAccountRepository;
     private final TransactionTypeRepository transactionTypeRepository;
     private final UserService userService;
     private final BankAccountService bankAccountService;
