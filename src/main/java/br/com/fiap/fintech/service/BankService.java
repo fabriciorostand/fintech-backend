@@ -1,7 +1,10 @@
 package br.com.fiap.fintech.service;
 
+import br.com.fiap.fintech.dto.bank.CreateBankRequest;
+import br.com.fiap.fintech.dto.bank.UpdateBankRequest;
 import br.com.fiap.fintech.model.Bank;
 import br.com.fiap.fintech.repository.BankRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +20,9 @@ public class BankService {
 
     // Methods
     @Transactional
-    public Bank register(Bank bank) {
+    public Bank register(CreateBankRequest request) {
+        Bank bank = new Bank(request);
+
         return bankRepository.save(bank);
     }
 
@@ -35,14 +40,14 @@ public class BankService {
         return bankRepository.findAll();
     }
 
-    public Bank update(Long id, Bank bank) {
-        Optional<Bank> existent = bankRepository.findById(id);
+    @Transactional
+    public Bank update(Long id, UpdateBankRequest request) {
+        Bank bank = bankRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Banco não encontrado"));
 
-        if (existent.isPresent()) {
-            return bankRepository.save(bank);
-        } else {
-            throw new RuntimeException("Erro ao atualizar: banco não encontrado!");
-        }
+        bank.updateInfo(request);
+
+        return bank;
     }
 
     public void delete(Long id) {

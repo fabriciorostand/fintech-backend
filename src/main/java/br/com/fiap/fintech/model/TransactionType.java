@@ -1,5 +1,7 @@
 package br.com.fiap.fintech.model;
 
+import br.com.fiap.fintech.dto.transaction_type.CreateTTRequest;
+import br.com.fiap.fintech.dto.transaction_type.UpdateTTRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +21,12 @@ public class TransactionType {
 
     @Column(name = "NM_TIPO_LANCAMENTO")
     private String name;
+
+    public TransactionType(CreateTTRequest request) {
+        this.name = request.getName();
+    }
+
+    public void updateInfo(UpdateTTRequest request) {
+        this.name = request.getName();
+    }
 }

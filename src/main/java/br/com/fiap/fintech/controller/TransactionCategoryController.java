@@ -1,7 +1,11 @@
 package br.com.fiap.fintech.controller;
 
+import br.com.fiap.fintech.dto.transaction_category.CreateTCRequest;
+import br.com.fiap.fintech.dto.transaction_category.TCResponse;
+import br.com.fiap.fintech.dto.transaction_category.UpdateTCRequest;
 import br.com.fiap.fintech.model.TransactionCategory;
 import br.com.fiap.fintech.service.TransactionCategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +22,14 @@ public class TransactionCategoryController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<TransactionCategory> register(@RequestBody TransactionCategory category) {
-        TransactionCategory registered = transactionCategoryService.register(category);
+    public ResponseEntity<TCResponse> register(@RequestBody @Valid CreateTCRequest request) {
+        TransactionCategory transactionCategory = transactionCategoryService.register(request);
+
+        TCResponse response = new TCResponse(transactionCategory);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(registered);
+                .body(response);
     }
 
     @GetMapping("/{id}")
@@ -41,10 +47,12 @@ public class TransactionCategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TransactionCategory> update(@PathVariable Long id, @RequestBody TransactionCategory category) {
-        TransactionCategory updated = transactionCategoryService.update(id, category);
+    public ResponseEntity<TCResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateTCRequest request) {
+        TransactionCategory transactionCategory = transactionCategoryService.update(id, request);
 
-        return ResponseEntity.ok(updated);
+        TCResponse response = new TCResponse(transactionCategory);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

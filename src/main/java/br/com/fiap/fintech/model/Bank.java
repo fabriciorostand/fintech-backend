@@ -1,5 +1,7 @@
 package br.com.fiap.fintech.model;
 
+import br.com.fiap.fintech.dto.bank.CreateBankRequest;
+import br.com.fiap.fintech.dto.bank.UpdateBankRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,4 +25,19 @@ public class Bank {
 
     @Column(name = "NR_BANCO")
     private String number;
+
+    public Bank(CreateBankRequest request) {
+        this.name = request.getName();
+        this.number = request.getNumber();
+    }
+
+    public void updateInfo(UpdateBankRequest request) {
+        if (request.getName() != null) {
+            this.name = request.getName();
+        }
+
+        if (request.getNumber() != null) {
+            this.number = request.getNumber();
+        }
+    }
 }

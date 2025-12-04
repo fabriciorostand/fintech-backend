@@ -1,7 +1,10 @@
 package br.com.fiap.fintech.service;
 
+import br.com.fiap.fintech.dto.transaction_type.CreateTTRequest;
+import br.com.fiap.fintech.dto.transaction_type.UpdateTTRequest;
 import br.com.fiap.fintech.model.TransactionType;
 import br.com.fiap.fintech.repository.TransactionTypeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +20,10 @@ public class TransactionTypeService {
 
     // Methods
     @Transactional
-    public TransactionType register(TransactionType type) {
-        return transactionTypeRepository.save(type);
+    public TransactionType register(CreateTTRequest request) {
+        TransactionType transactionType = new TransactionType(request);
+
+        return transactionTypeRepository.save(transactionType);
     }
 
     public TransactionType findById(Long id) {
@@ -35,14 +40,14 @@ public class TransactionTypeService {
         return transactionTypeRepository.findAll();
     }
 
-    public TransactionType update(Long id, TransactionType type) {
-        Optional<TransactionType> existent = transactionTypeRepository.findById(id);
+    @Transactional
+    public TransactionType update(Long id, UpdateTTRequest request) {
+        TransactionType transactionType = transactionTypeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tipo de lançamento não encontrado"));
 
-        if (existent.isPresent()) {
-            return transactionTypeRepository.save(type);
-        } else {
-            throw new RuntimeException("Erro ao atualizar: tipo de transação não encontrado!");
-        }
+        transactionType.updateInfo(request);
+
+        return transactionType;
     }
 
     public void delete(Long id) {

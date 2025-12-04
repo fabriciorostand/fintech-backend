@@ -1,7 +1,11 @@
 package br.com.fiap.fintech.controller;
 
+import br.com.fiap.fintech.dto.transaction_type.CreateTTRequest;
+import br.com.fiap.fintech.dto.transaction_type.TTResponse;
+import br.com.fiap.fintech.dto.transaction_type.UpdateTTRequest;
 import br.com.fiap.fintech.model.TransactionType;
 import br.com.fiap.fintech.service.TransactionTypeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +22,14 @@ public class TransactionTypeController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<TransactionType> register(@RequestBody TransactionType transactionType) {
-        TransactionType registered = transactionTypeService.register(transactionType);
+    public ResponseEntity<TTResponse> register(@RequestBody @Valid CreateTTRequest request) {
+        TransactionType transactionType = transactionTypeService.register(request);
+
+        TTResponse response = new TTResponse(transactionType);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(registered);
+                .body(response);
     }
 
     @GetMapping("/{id}")
@@ -41,10 +47,12 @@ public class TransactionTypeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TransactionType> update(@PathVariable Long id, @RequestBody TransactionType transactionType) {
-        TransactionType updated = transactionTypeService.update(id, transactionType);
+    public ResponseEntity<TTResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateTTRequest request) {
+        TransactionType transactionType = transactionTypeService.update(id, request);
 
-        return ResponseEntity.ok(updated);
+        TTResponse response = new TTResponse(transactionType);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

@@ -1,5 +1,7 @@
 package br.com.fiap.fintech.model;
 
+import br.com.fiap.fintech.dto.transaction_category.CreateTCRequest;
+import br.com.fiap.fintech.dto.transaction_category.UpdateTCRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +21,12 @@ public class TransactionCategory {
 
     @Column(name = "NM_CATEGORIA_LANCAMENTO")
     private String name;
+
+    public TransactionCategory(CreateTCRequest request) {
+        this.name = request.getName();
+    }
+
+    public void updateInfo(UpdateTCRequest request) {
+        this.name = request.getName();
+    }
 }

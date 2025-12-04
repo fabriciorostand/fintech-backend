@@ -1,7 +1,10 @@
 package br.com.fiap.fintech.service;
 
+import br.com.fiap.fintech.dto.transaction_category.CreateTCRequest;
+import br.com.fiap.fintech.dto.transaction_category.UpdateTCRequest;
 import br.com.fiap.fintech.model.TransactionCategory;
 import br.com.fiap.fintech.repository.TransactionCategoryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +20,10 @@ public class TransactionCategoryService {
 
     // Methods
     @Transactional
-    public TransactionCategory register(TransactionCategory category) {
-        return transactionCategoryRepository.save(category);
+    public TransactionCategory register(CreateTCRequest request) {
+        TransactionCategory transactionCategory = new TransactionCategory(request);
+
+        return transactionCategoryRepository.save(transactionCategory);
     }
 
     public TransactionCategory findById(Long id) {
@@ -35,14 +40,14 @@ public class TransactionCategoryService {
         return transactionCategoryRepository.findAll();
     }
 
-    public TransactionCategory update(Long id, TransactionCategory category) {
-        Optional<TransactionCategory> existent = transactionCategoryRepository.findById(id);
+    @Transactional
+    public TransactionCategory update(Long id, UpdateTCRequest request) {
+        TransactionCategory transactionCategory = transactionCategoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Categoria de lançamento não encontrada"));
 
-        if (existent.isPresent()) {
-            return transactionCategoryRepository.save(category);
-        } else {
-            throw new RuntimeException("Erro ao atualizar: categoria de transação não encontrada!");
-        }
+        transactionCategory.updateInfo(request);
+
+        return transactionCategory;
     }
 
     public void delete(Long id) {

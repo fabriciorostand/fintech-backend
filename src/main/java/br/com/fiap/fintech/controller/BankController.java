@@ -1,7 +1,11 @@
 package br.com.fiap.fintech.controller;
 
+import br.com.fiap.fintech.dto.bank.BankResponse;
+import br.com.fiap.fintech.dto.bank.CreateBankRequest;
+import br.com.fiap.fintech.dto.bank.UpdateBankRequest;
 import br.com.fiap.fintech.model.Bank;
 import br.com.fiap.fintech.service.BankService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +22,14 @@ public class BankController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<Bank> register(@RequestBody Bank bank) {
-        Bank registered = bankService.register(bank);
+    public ResponseEntity<BankResponse> register(@RequestBody @Valid CreateBankRequest request) {
+        Bank bank = bankService.register(request);
+
+        BankResponse response = new BankResponse(bank);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(registered);
+                .body(response);
     }
 
     @GetMapping("/{id}")
@@ -41,10 +47,12 @@ public class BankController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Bank> update(@PathVariable Long id, @RequestBody Bank bank) {
-        Bank updated = bankService.update(id, bank);
+    public ResponseEntity<BankResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateBankRequest request) {
+        Bank bank = bankService.update(id, request);
 
-        return ResponseEntity.ok(updated);
+        BankResponse response = new BankResponse(bank);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
