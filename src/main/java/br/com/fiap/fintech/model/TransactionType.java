@@ -15,7 +15,7 @@ public class TransactionType {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_FIN_TIPO_LANCAMENTO_SEQ")
     @SequenceGenerator(name = "T_FIN_TIPO_LANCAMENTO_SEQ", sequenceName = "T_FIN_TIPO_LANCAMENTO_SEQ", allocationSize = 1)
     @Column(name = "ID_TIPO_LANCAMENTO")
-    private int id;
+    private Long id;
 
     @Column(name = "NM_TIPO_LANCAMENTO")
     private String name;

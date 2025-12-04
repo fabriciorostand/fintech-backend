@@ -1,4 +1,4 @@
-package br.com.fiap.fintech.dto;
+package br.com.fiap.fintech.dto.login;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package br.com.fiap.fintech.dto;
+package br.com.fiap.fintech.dto.register;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

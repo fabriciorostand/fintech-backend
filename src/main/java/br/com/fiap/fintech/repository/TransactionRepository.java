@@ -5,9 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
-    Page<Transaction> findByBankAccountId(int bankAccountId, Pageable pageable);
-    Page<Transaction> findByBankAccount_UserId(int userId, Pageable pageable);
-    Page<Transaction> findByBankAccount_UserIdAndTransactionTypeId(int userId, int transactionTypeId, Pageable pageable);
-    Page<Transaction> findByBankAccountIdAndTransactionTypeId(int bankAccountId, int transactionTypeId, Pageable pageable);
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    Page<Transaction> findByBankAccountId(Long bankAccountId, Pageable pageable);
+    Page<Transaction> findByBankAccount_UserId(Long userId, Pageable pageable);
+    Page<Transaction> findByBankAccount_UserIdAndTransactionTypeId(Long userId, Long transactionTypeId, Pageable pageable);
+    Page<Transaction> findByBankAccountIdAndTransactionTypeId(Long bankAccountId, Long transactionTypeId, Pageable pageable);
 }

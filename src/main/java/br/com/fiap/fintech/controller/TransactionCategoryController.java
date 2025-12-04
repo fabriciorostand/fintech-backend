@@ -27,7 +27,7 @@ public class TransactionCategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionCategory> findById(@PathVariable int id) {
+    public ResponseEntity<TransactionCategory> findById(@PathVariable Long id) {
         TransactionCategory found = transactionCategoryService.findById(id);
 
         return ResponseEntity.ok(found);
@@ -41,14 +41,14 @@ public class TransactionCategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TransactionCategory> update(@PathVariable int id, @RequestBody TransactionCategory category) {
+    public ResponseEntity<TransactionCategory> update(@PathVariable Long id, @RequestBody TransactionCategory category) {
         TransactionCategory updated = transactionCategoryService.update(id, category);
 
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         transactionCategoryService.delete(id);
 
         return ResponseEntity.noContent().build();

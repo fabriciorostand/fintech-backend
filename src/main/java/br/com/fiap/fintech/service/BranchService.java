@@ -1,7 +1,10 @@
 package br.com.fiap.fintech.service;
 
+import br.com.fiap.fintech.dto.branch.CreateBranchRequest;
+import br.com.fiap.fintech.dto.branch.UpdateBranchRequest;
 import br.com.fiap.fintech.model.Branch;
 import br.com.fiap.fintech.repository.BranchRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +20,13 @@ public class BranchService {
 
     // Methods
     @Transactional
-    public Branch register(Branch branch) {
+    public Branch register(CreateBranchRequest request) {
+        Branch branch = new Branch(request);
+
         return branchRepository.save(branch);
     }
 
-    public Branch findById(int id) {
+    public Branch findById(Long id) {
         Optional<Branch> branch = branchRepository.findById(id);
 
         if (branch.isPresent()) {
@@ -35,17 +40,17 @@ public class BranchService {
         return branchRepository.findAll();
     }
 
-    public Branch update(int id, Branch branch) {
-        Optional<Branch> existent = branchRepository.findById(id);
+    @Transactional
+    public Branch update(Long id, UpdateBranchRequest request) {
+        Branch branch = branchRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Agência não encontrada"));
 
-        if (existent.isPresent()) {
-            return branchRepository.save(branch);
-        } else {
-            throw new RuntimeException("Erro ao atualizar: agência não encontrada!");
-        }
+        branch.updateInfo(request);
+
+        return branch;
     }
 
-    public void delete(int id) {
+    public void delete(Long id) {
         Optional<Branch> branch = branchRepository.findById(id);
 
         if (branch.isPresent()) {

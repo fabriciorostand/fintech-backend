@@ -1,9 +1,9 @@
 package br.com.fiap.fintech.controller;
 
-import br.com.fiap.fintech.dto.LoginRequest;
-import br.com.fiap.fintech.dto.LoginResponse;
-import br.com.fiap.fintech.dto.RegisterRequest;
-import br.com.fiap.fintech.dto.UserResponse;
+import br.com.fiap.fintech.dto.login.LoginRequest;
+import br.com.fiap.fintech.dto.login.LoginResponse;
+import br.com.fiap.fintech.dto.register.RegisterRequest;
+import br.com.fiap.fintech.dto.user.UserResponse;
 import br.com.fiap.fintech.model.User;
 import br.com.fiap.fintech.service.UserService;
 import jakarta.validation.Valid;

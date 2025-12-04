@@ -1,8 +1,10 @@
 package br.com.fiap.fintech.service;
 
-import br.com.fiap.fintech.dto.RegisterRequest;
+import br.com.fiap.fintech.dto.register.RegisterRequest;
+import br.com.fiap.fintech.dto.user.UpdateUserRequest;
 import br.com.fiap.fintech.model.User;
 import br.com.fiap.fintech.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +26,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findById(int id) {
+    public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
 
         if (user.isPresent()) {
@@ -38,17 +40,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User update(int id, User user) {
-        Optional<User> existentUser = userRepository.findById(id);
+    @Transactional
+    public User update(Long id, UpdateUserRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
-        if (existentUser.isPresent()) {
-            return userRepository.save(user);
-        } else {
-            throw new RuntimeException("Erro ao atualizar: usuário não encontrado!");
-        }
+        user.updateInfo(request);
+
+        return user;
     }
 
-    public void delete(int id) {
+    public void delete(Long id) {
         Optional<User> user = userRepository.findById(id);
 
         if (user.isPresent()) {

@@ -1,4 +1,4 @@
-package br.com.fiap.fintech.dto;
+package br.com.fiap.fintech.dto.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,6 @@ public class LoginResponse {
     // Attributes
     private boolean success;
     private String message;
-    private Integer userId;
+    private Long userId;
     private String userName;
 }

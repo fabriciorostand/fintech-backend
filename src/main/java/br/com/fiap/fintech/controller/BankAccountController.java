@@ -1,10 +1,13 @@
 package br.com.fiap.fintech.controller;
 
-import br.com.fiap.fintech.dto.BankAccountResponse;
-import br.com.fiap.fintech.dto.TransactionResponse;
+import br.com.fiap.fintech.dto.bank_account.CreateBankAccountRequest;
+import br.com.fiap.fintech.dto.bank_account.BankAccountResponse;
+import br.com.fiap.fintech.dto.bank_account.UpdateBankAccountRequest;
+import br.com.fiap.fintech.dto.transaction.TransactionResponse;
 import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.service.BankAccountService;
 import br.com.fiap.fintech.service.TransactionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,10 +29,10 @@ public class BankAccountController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<BankAccountResponse> register(@RequestBody BankAccount bankAccount) {
-        BankAccount registered = bankAccountService.register(bankAccount);
+    public ResponseEntity<BankAccountResponse> register(@RequestBody @Valid CreateBankAccountRequest request) {
+        BankAccount bankAccount = bankAccountService.register(request);
 
-        BankAccountResponse response = new BankAccountResponse(registered);
+        BankAccountResponse response = new BankAccountResponse(bankAccount);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -37,7 +40,7 @@ public class BankAccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BankAccountResponse> findById(@PathVariable int id) {
+    public ResponseEntity<BankAccountResponse> findById(@PathVariable Long id) {
         BankAccount found = bankAccountService.findById(id);
 
         BankAccountResponse response = new BankAccountResponse(found);
@@ -46,7 +49,7 @@ public class BankAccountController {
     }
 
     @GetMapping("/{id}/transactions")
-    public ResponseEntity<Page<TransactionResponse>> findByBankAccountId(@PathVariable int id, @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<TransactionResponse>> findByBankAccountId(@PathVariable Long id, @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable) {
         // Valida se a conta existe
         bankAccountService.findById(id);
 
@@ -57,7 +60,7 @@ public class BankAccountController {
     }
 
     @GetMapping("/{id}/transactions/transaction-types/{transactionTypeId}")
-    public ResponseEntity<Page<TransactionResponse>> findByBankAccountIdAndTransactionTypeId(@PathVariable int id,@PathVariable int transactionTypeId, @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<TransactionResponse>> findByBankAccountIdAndTransactionTypeId(@PathVariable Long id,@PathVariable Long transactionTypeId, @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable) {
         // Valida se a conta existe
         bankAccountService.findById(id);
 
@@ -79,16 +82,16 @@ public class BankAccountController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BankAccountResponse> update(@PathVariable int id, @RequestBody BankAccount bankAccount) {
-        BankAccount updated = bankAccountService.update(id, bankAccount);
+    public ResponseEntity<BankAccountResponse> update(@PathVariable Long id, @RequestBody UpdateBankAccountRequest request) {
+        BankAccount bankAccount = bankAccountService.update(id, request);
 
-        BankAccountResponse response = new BankAccountResponse(updated);
+        BankAccountResponse response = new BankAccountResponse(bankAccount);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         bankAccountService.delete(id);
 
         return ResponseEntity.noContent().build();

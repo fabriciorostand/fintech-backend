@@ -1,6 +1,7 @@
 package br.com.fiap.fintech.model;
 
-import br.com.fiap.fintech.dto.RegisterRequest;
+import br.com.fiap.fintech.dto.register.RegisterRequest;
+import br.com.fiap.fintech.dto.user.UpdateUserRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_FIN_USUARIO_SEQ")
     @SequenceGenerator(name = "T_FIN_USUARIO_SEQ", sequenceName = "T_FIN_USUARIO_SEQ", allocationSize = 1)
     @Column(name = "ID_USUARIO")
-    private int id;
+    private Long id;
 
     @Column(name = "NM_USUARIO")
     private String name;
@@ -37,5 +38,11 @@ public class User {
         this.name = request.getName();
         this.email = request.getEmail();
         this.password = request.getPassword();
+    }
+
+    public void updateInfo(UpdateUserRequest request) {
+        if (request.getName() != null) {
+            this.name = request.getName();
+        }
     }
 }

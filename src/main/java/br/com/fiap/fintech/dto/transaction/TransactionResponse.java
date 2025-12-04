@@ -1,18 +1,19 @@
-package br.com.fiap.fintech.dto;
+package br.com.fiap.fintech.dto.transaction;
 
 import br.com.fiap.fintech.model.Transaction;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
 public class TransactionResponse {
-    private int id;
-    private int bankAccountId;
-    private int transactionTypeId;
-    private int transactionCategoryId;
+    private Long id;
+    private Long bankAccountId;
+    private Long transactionTypeId;
+    private Long transactionCategoryId;
     private String name;
-    private double value;
+    private BigDecimal value;
     private LocalDate date;
     private String description;
 

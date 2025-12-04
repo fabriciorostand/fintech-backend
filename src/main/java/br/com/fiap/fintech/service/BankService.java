@@ -21,7 +21,7 @@ public class BankService {
         return bankRepository.save(bank);
     }
 
-    public Bank findById(int id) {
+    public Bank findById(Long id) {
         Optional<Bank> bank = bankRepository.findById(id);
 
         if (bank.isPresent()) {
@@ -35,7 +35,7 @@ public class BankService {
         return bankRepository.findAll();
     }
 
-    public Bank update(int id, Bank bank) {
+    public Bank update(Long id, Bank bank) {
         Optional<Bank> existent = bankRepository.findById(id);
 
         if (existent.isPresent()) {
@@ -45,7 +45,7 @@ public class BankService {
         }
     }
 
-    public void delete(int id) {
+    public void delete(Long id) {
         Optional<Bank> bank = bankRepository.findById(id);
 
         if (bank.isPresent()) {

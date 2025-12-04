@@ -1,11 +1,13 @@
 package br.com.fiap.fintech.model;
 
+import br.com.fiap.fintech.dto.bank_account.CreateBankAccountRequest;
+import br.com.fiap.fintech.dto.bank_account.UpdateBankAccountRequest;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -18,27 +20,49 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_FIN_CONTA_BANCARIA_SEQ")
     @SequenceGenerator(name = "T_FIN_CONTA_BANCARIA_SEQ", sequenceName = "T_FIN_CONTA_BANCARIA_SEQ", allocationSize = 1)
     @Column(name = "ID_CONTA_BANCARIA")
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", insertable = false, updatable = false)
     private User user;
 
     @Column(name = "ID_USUARIO")
-    private int userId;
+    private Long userId;
 
     @Column(name = "ID_AGENCIA")
-    private int branchId;
+    private Long branchId;
 
     @Column(name = "ID_BANCO")
-    private int bankId;
+    private Long bankId;
 
     @Column(name = "NR_CONTA_BANCARIA")
     private String number;
 
     @Column(name = "VL_SALDO_ATUAL")
-    private double balance;
+    private BigDecimal balance;
 
     @OneToMany(mappedBy = "bankAccountId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
+
+    public BankAccount(CreateBankAccountRequest request) {
+        this.userId = request.getUserId();
+        this.branchId = request.getBranchId();
+        this.bankId = request.getBankId();
+        this.number = request.getNumber();
+        this.balance = request.getBalance();
+    }
+
+    public void updateInfo(UpdateBankAccountRequest request) {
+        if (request.getBranchId() != null) {
+            this.branchId = request.getBranchId();
+        }
+
+        if (request.getBankId() != null) {
+            this.bankId = request.getBankId();
+        }
+
+        if (request.getNumber() != null) {
+            this.number = request.getNumber();
+        }
+    }
 }

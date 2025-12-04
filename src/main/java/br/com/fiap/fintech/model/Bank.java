@@ -16,7 +16,7 @@ public class Bank {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_FIN_BANCO_SEQ")
     @SequenceGenerator(name = "T_FIN_BANCO_SEQ", sequenceName = "T_FIN_BANCO_SEQ", allocationSize = 1)
     @Column(name = "ID_BANCO")
-    private int id;
+    private Long id;
 
     @Column(name = "NM_BANCO")
     private String name;

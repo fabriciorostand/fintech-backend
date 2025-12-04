@@ -1,11 +1,15 @@
 package br.com.fiap.fintech.service;
 
+import br.com.fiap.fintech.dto.bank_account.CreateBankAccountRequest;
+import br.com.fiap.fintech.dto.bank_account.UpdateBankAccountRequest;
 import br.com.fiap.fintech.model.BankAccount;
 import br.com.fiap.fintech.repository.BankAccountRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +21,13 @@ public class BankAccountService {
 
     // Methods
     @Transactional
-    public BankAccount register(BankAccount bankAccount) {
+    public BankAccount register(CreateBankAccountRequest request) {
+        BankAccount bankAccount = new BankAccount(request);
+
         return bankAccountRepository.save(bankAccount);
     }
 
-    public BankAccount findById(int id) {
+    public BankAccount findById(Long id) {
         Optional<BankAccount> account = bankAccountRepository.findById(id);
 
         if (account.isPresent()) {
@@ -35,25 +41,22 @@ public class BankAccountService {
         return bankAccountRepository.findAll();
     }
 
-    public List<BankAccount> findByUserId(int userId) {
+    public List<BankAccount> findByUserId(Long userId) {
         return bankAccountRepository.findByUserId(userId);
     }
 
-    public BankAccount update(int id, BankAccount bankAccount) {
-        Optional<BankAccount> existent = bankAccountRepository.findById(id);
+    @Transactional
+    public BankAccount update(Long id, UpdateBankAccountRequest request) {
+        BankAccount bankAccount = bankAccountRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Conta bancária não encontrada"));
 
-        if (existent.isPresent()) {
-            BankAccount existingAccount = existent.get();
-            // Update only mutable fields
-            existingAccount.setNumber(bankAccount.getNumber());
-            // Note: userId should not be updated as the user relationship is immutable
-            return bankAccountRepository.save(existingAccount);
-        } else {
-            throw new RuntimeException("Erro ao atualizar: conta bancária não encontrada!");
-        }
+        // Update only mutable fields
+        bankAccount.updateInfo(request);
+
+        return bankAccount;
     }
 
-    public void delete(int id) {
+    public void delete(Long id) {
         Optional<BankAccount> account = bankAccountRepository.findById(id);
 
         if (account.isPresent()) {
@@ -64,20 +67,20 @@ public class BankAccountService {
     }
 
     @Transactional
-    public void updateBalance(int accountId, double amount) {
+    public void updateBalance(Long accountId, BigDecimal amount) {
         BankAccount account = findById(accountId);
-        double newBalance = account.getBalance() + amount;
+        BigDecimal newBalance = account.getBalance().add(amount);
         account.setBalance(newBalance);
         bankAccountRepository.save(account);
     }
 
     @Transactional
-    public void addToBalance(int accountId, double amount) {
+    public void addToBalance(Long accountId, BigDecimal amount) {
         updateBalance(accountId, amount);
     }
 
     @Transactional
-    public void subtractFromBalance(int accountId, double amount) {
-        updateBalance(accountId, -amount);
+    public void subtractFromBalance(Long accountId, BigDecimal amount) {
+        updateBalance(accountId, amount.negate());
     }
 }

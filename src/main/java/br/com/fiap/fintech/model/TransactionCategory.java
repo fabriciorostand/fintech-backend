@@ -15,7 +15,7 @@ public class TransactionCategory {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_FIN_CATEGORIA_LANCAMENTO_SEQ")
     @SequenceGenerator(name = "T_FIN_CATEGORIA_LANCAMENTO_SEQ", sequenceName = "T_FIN_CATEGORIA_LANCAMENTO_SEQ", allocationSize = 1)
     @Column(name = "ID_CATEGORIA_LANCAMENTO")
-    private int id;
+    private Long id;
 
     @Column(name = "NM_CATEGORIA_LANCAMENTO")
     private String name;

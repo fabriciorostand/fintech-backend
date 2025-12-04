@@ -21,7 +21,7 @@ public class TransactionCategoryService {
         return transactionCategoryRepository.save(category);
     }
 
-    public TransactionCategory findById(int id) {
+    public TransactionCategory findById(Long id) {
         Optional<TransactionCategory> category = transactionCategoryRepository.findById(id);
 
         if (category.isPresent()) {
@@ -35,7 +35,7 @@ public class TransactionCategoryService {
         return transactionCategoryRepository.findAll();
     }
 
-    public TransactionCategory update(int id, TransactionCategory category) {
+    public TransactionCategory update(Long id, TransactionCategory category) {
         Optional<TransactionCategory> existent = transactionCategoryRepository.findById(id);
 
         if (existent.isPresent()) {
@@ -45,7 +45,7 @@ public class TransactionCategoryService {
         }
     }
 
-    public void delete(int id) {
+    public void delete(Long id) {
         Optional<TransactionCategory> category = transactionCategoryRepository.findById(id);
 
         if (category.isPresent()) {

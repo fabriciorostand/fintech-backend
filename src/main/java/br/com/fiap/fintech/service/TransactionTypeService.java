@@ -21,7 +21,7 @@ public class TransactionTypeService {
         return transactionTypeRepository.save(type);
     }
 
-    public TransactionType findById(int id) {
+    public TransactionType findById(Long id) {
         Optional<TransactionType> type = transactionTypeRepository.findById(id);
 
         if (type.isPresent()) {
@@ -35,7 +35,7 @@ public class TransactionTypeService {
         return transactionTypeRepository.findAll();
     }
 
-    public TransactionType update(int id, TransactionType type) {
+    public TransactionType update(Long id, TransactionType type) {
         Optional<TransactionType> existent = transactionTypeRepository.findById(id);
 
         if (existent.isPresent()) {
@@ -45,7 +45,7 @@ public class TransactionTypeService {
         }
     }
 
-    public void delete(int id) {
+    public void delete(Long id) {
         Optional<TransactionType> type = transactionTypeRepository.findById(id);
 
         if (type.isPresent()) {

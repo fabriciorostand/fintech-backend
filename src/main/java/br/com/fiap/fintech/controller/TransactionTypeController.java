@@ -27,7 +27,7 @@ public class TransactionTypeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionType> findById(@PathVariable int id) {
+    public ResponseEntity<TransactionType> findById(@PathVariable Long id) {
         TransactionType found = transactionTypeService.findById(id);
 
         return ResponseEntity.ok(found);
@@ -41,14 +41,14 @@ public class TransactionTypeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TransactionType> update(@PathVariable int id, @RequestBody TransactionType transactionType) {
+    public ResponseEntity<TransactionType> update(@PathVariable Long id, @RequestBody TransactionType transactionType) {
         TransactionType updated = transactionTypeService.update(id, transactionType);
 
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         transactionTypeService.delete(id);
 
         return ResponseEntity.noContent().build();

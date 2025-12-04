@@ -27,7 +27,7 @@ public class BankController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Bank> findById(@PathVariable int id) {
+    public ResponseEntity<Bank> findById(@PathVariable Long id) {
         Bank found = bankService.findById(id);
 
         return ResponseEntity.ok(found);
@@ -41,14 +41,14 @@ public class BankController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Bank> update(@PathVariable int id, @RequestBody Bank bank) {
+    public ResponseEntity<Bank> update(@PathVariable Long id, @RequestBody Bank bank) {
         Bank updated = bankService.update(id, bank);
 
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         bankService.delete(id);
 
         return ResponseEntity.noContent().build();
