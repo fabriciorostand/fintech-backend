@@ -27,13 +27,8 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new RuntimeException("Usuário não encontrado!");
-        }
+        return userRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public List<User> findAll() {
@@ -43,21 +38,19 @@ public class UserService {
     @Transactional
     public User update(Long id, UpdateUserRequest request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+                .orElseThrow(EntityNotFoundException::new);
 
         user.updateInfo(request);
 
         return user;
     }
 
+    @Transactional
     public void delete(Long id) {
-        Optional<User> user = userRepository.findById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (user.isPresent()) {
-            userRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Erro ao excluir: usuário não encontrado!");
-        }
+        userRepository.delete(user);
     }
 
     public User authenticate(String email, String password) {

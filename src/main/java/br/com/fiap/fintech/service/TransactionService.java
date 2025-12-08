@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,13 +37,8 @@ public class TransactionService {
     }
 
     public Transaction findById(Long id) {
-        Optional<Transaction> transaction = transactionRepository.findById(id);
-
-        if (transaction.isPresent()) {
-            return transaction.get();
-        } else {
-            throw new RuntimeException("Transação não encontrada!");
-        }
+        return transactionRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public List<Transaction> findAll() {
@@ -73,7 +67,7 @@ public class TransactionService {
     @Transactional
     public Transaction update(Long id, UpdateTransactionRequest request) {
         Transaction transaction = transactionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Transação não encontrada"));
+                .orElseThrow(EntityNotFoundException::new);
 
             
             // Reverte o efeito da transação antiga
@@ -90,20 +84,18 @@ public class TransactionService {
 
     @Transactional
     public void delete(Long id) {
-        Optional<Transaction> transaction = transactionRepository.findById(id);
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (transaction.isPresent()) {
-            // Reverte o efeito da transação antes de excluí-la
-            revertAccountBalanceForTransaction(transaction.get());
-            transactionRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Erro ao excluir: transação não encontrada!");
-        }
+        // Reverte o efeito da transação antes de excluí-la
+        revertAccountBalanceForTransaction(transaction);
+
+        transactionRepository.deleteById(id);
     }
 
     private void updateAccountBalanceForNewTransaction(Transaction transaction) {
         TransactionType transactionType = transactionTypeRepository.findById(transaction.getTransactionTypeId())
-                .orElseThrow(() -> new RuntimeException("Tipo de transação não encontrado!"));
+                .orElseThrow(RuntimeException::new);
         
         String typeName = transactionType.getName().toLowerCase();
         
@@ -117,7 +109,7 @@ public class TransactionService {
 
     private void revertAccountBalanceForTransaction(Transaction transaction) {
         TransactionType transactionType = transactionTypeRepository.findById(transaction.getTransactionTypeId())
-                .orElseThrow(() -> new RuntimeException("Tipo de transação não encontrado!"));
+                .orElseThrow(RuntimeException::new);
         
         String typeName = transactionType.getName().toLowerCase();
         

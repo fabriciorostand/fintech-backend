@@ -22,7 +22,7 @@ public class Transaction {
     @Column(name = "ID_LANCAMENTO")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CONTA_BANCARIA", insertable = false, updatable = false)
     private BankAccount bankAccount;
 

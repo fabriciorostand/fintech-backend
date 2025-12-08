@@ -60,7 +60,6 @@ public class UserController {
 
         Page<TransactionResponse> response = transactionService.findByUserId(id, pageable).map(TransactionResponse::new);
 
-        // Busca as transações através do service apropriado
         return ResponseEntity.ok(response);
     }
 

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -22,28 +23,36 @@ public class BranchController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<BranchResponse> register(@RequestBody @Valid CreateBranchRequest request) {
+    public ResponseEntity<BranchResponse> register(@RequestBody @Valid CreateBranchRequest request, UriComponentsBuilder uriBuilder) {
         Branch branch = branchService.register(request);
+
+        var uri = uriBuilder.path("/api/branches/{id}").buildAndExpand(branch.getId()).toUri();
 
         BranchResponse response = new BranchResponse(branch);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(uri)
                 .body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Branch> findById(@PathVariable Long id) {
-        Branch found = branchService.findById(id);
+    public ResponseEntity<BranchResponse> findById(@PathVariable Long id) {
+        Branch branch = branchService.findById(id);
 
-        return ResponseEntity.ok(found);
+        BranchResponse response = new BranchResponse(branch);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<Branch>> findAll() {
-        List<Branch> found = branchService.findAll();
+    public ResponseEntity<List<BranchResponse>> findAll() {
+        List<Branch> branches = branchService.findAll();
 
-        return ResponseEntity.ok(found);
+        List<BranchResponse> response = branches.stream()
+                .map(BranchResponse::new)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")

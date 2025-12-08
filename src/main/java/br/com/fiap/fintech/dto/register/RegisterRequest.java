@@ -8,12 +8,14 @@ import lombok.Getter;
 @Getter
 public class RegisterRequest {
     // Attributes
-    @NotBlank
+    @NotBlank(message = "{name.required}")
     private String name;
 
-    @Email @NotBlank
+    @NotBlank(message = "{email.required}")
+    @Email(message = "{email.invalid}")
     private String email;
 
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()_+=\\-{}|:;\"'<>,.?/]{8,}$") @NotBlank
+    @NotBlank(message = "{password.required}")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()_+=\\-{}|:;\"'<>,.?/]{8,}$", message = "{password.invalid}")
     private String password;
 }

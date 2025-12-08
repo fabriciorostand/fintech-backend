@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -22,30 +23,32 @@ public class TransactionController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<TransactionResponse> register(@RequestBody @Valid TransactionRequest request) {
+    public ResponseEntity<TransactionResponse> register(@RequestBody @Valid TransactionRequest request, UriComponentsBuilder uriBuilder) {
         Transaction transaction = transactionService.register(request);
+
+        var uri = uriBuilder.path("/api/transactions/{id}").buildAndExpand(transaction.getId()).toUri();
 
         TransactionResponse response = new TransactionResponse(transaction);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(uri)
                 .body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TransactionResponse> findById(@PathVariable Long id) {
-        Transaction found = transactionService.findById(id);
+        Transaction transaction = transactionService.findById(id);
 
-        TransactionResponse response = new TransactionResponse(found);
+        TransactionResponse response = new TransactionResponse(transaction);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
     public ResponseEntity<List<TransactionResponse>> findAll() {
-        List<Transaction> found = transactionService.findAll();
+        List<Transaction> transactions = transactionService.findAll();
 
-        List<TransactionResponse> response = found.stream()
+        List<TransactionResponse> response = transactions.stream()
                 .map(TransactionResponse::new)
                 .toList();
 

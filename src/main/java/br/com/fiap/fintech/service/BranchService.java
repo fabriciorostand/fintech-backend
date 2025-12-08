@@ -27,13 +27,8 @@ public class BranchService {
     }
 
     public Branch findById(Long id) {
-        Optional<Branch> branch = branchRepository.findById(id);
-
-        if (branch.isPresent()) {
-            return branch.get();
-        } else {
-            throw new RuntimeException("Agência não encontrada!");
-        }
+        return branchRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public List<Branch> findAll() {
@@ -43,20 +38,18 @@ public class BranchService {
     @Transactional
     public Branch update(Long id, UpdateBranchRequest request) {
         Branch branch = branchRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Agência não encontrada"));
+                .orElseThrow(EntityNotFoundException::new);
 
         branch.updateInfo(request);
 
         return branch;
     }
 
+    @Transactional
     public void delete(Long id) {
-        Optional<Branch> branch = branchRepository.findById(id);
+        branchRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (branch.isPresent()) {
-            branchRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Erro ao excluir: agência não encontrada!");
-        }
+        branchRepository.deleteById(id);
     }
 }

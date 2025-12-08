@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 public class CreateTCRequest {
-    @NotBlank
+    @NotBlank(message = "{name.required}")
     private String name;
 }

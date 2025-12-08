@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -22,28 +23,36 @@ public class TransactionTypeController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<TTResponse> register(@RequestBody @Valid CreateTTRequest request) {
+    public ResponseEntity<TTResponse> register(@RequestBody @Valid CreateTTRequest request, UriComponentsBuilder uriBuilder) {
         TransactionType transactionType = transactionTypeService.register(request);
+
+        var uri = uriBuilder.path("/api/transaction-types/{id}").buildAndExpand(transactionType.getId()).toUri();
 
         TTResponse response = new TTResponse(transactionType);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(uri)
                 .body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionType> findById(@PathVariable Long id) {
-        TransactionType found = transactionTypeService.findById(id);
+    public ResponseEntity<TTResponse> findById(@PathVariable Long id) {
+        TransactionType transactionType = transactionTypeService.findById(id);
 
-        return ResponseEntity.ok(found);
+        TTResponse response = new TTResponse(transactionType);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionType>> findAll() {
-        List<TransactionType> found = transactionTypeService.findAll();
+    public ResponseEntity<List<TTResponse>> findAll() {
+        List<TransactionType> transactionTypes = transactionTypeService.findAll();
 
-        return ResponseEntity.ok(found);
+        List<TTResponse> response = transactionTypes.stream()
+                .map(TTResponse::new)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")

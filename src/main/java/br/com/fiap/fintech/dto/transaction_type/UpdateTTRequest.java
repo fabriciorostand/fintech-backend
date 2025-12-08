@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 public class UpdateTTRequest {
-    @NotBlank
+    @NotBlank(message = "{name.required}")
     private String name;
 }

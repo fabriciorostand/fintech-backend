@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -22,28 +23,36 @@ public class TransactionCategoryController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<TCResponse> register(@RequestBody @Valid CreateTCRequest request) {
+    public ResponseEntity<TCResponse> register(@RequestBody @Valid CreateTCRequest request, UriComponentsBuilder uriBuilder) {
         TransactionCategory transactionCategory = transactionCategoryService.register(request);
+
+        var uri = uriBuilder.path("/api/transaction-categories/{id}").buildAndExpand(transactionCategory.getId()).toUri();
 
         TCResponse response = new TCResponse(transactionCategory);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(uri)
                 .body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionCategory> findById(@PathVariable Long id) {
-        TransactionCategory found = transactionCategoryService.findById(id);
+    public ResponseEntity<TCResponse> findById(@PathVariable Long id) {
+        TransactionCategory transactionCategory = transactionCategoryService.findById(id);
 
-        return ResponseEntity.ok(found);
+        TCResponse response = new TCResponse(transactionCategory);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionCategory>> findAll() {
-        List<TransactionCategory> found = transactionCategoryService.findAll();
+    public ResponseEntity<List<TCResponse>> findAll() {
+        List<TransactionCategory> transactionCategories = transactionCategoryService.findAll();
 
-        return ResponseEntity.ok(found);
+        List<TCResponse> response = transactionCategories.stream()
+                .map(TCResponse::new)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -22,28 +23,36 @@ public class BankController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<BankResponse> register(@RequestBody @Valid CreateBankRequest request) {
+    public ResponseEntity<BankResponse> register(@RequestBody @Valid CreateBankRequest request, UriComponentsBuilder uriBuilder) {
         Bank bank = bankService.register(request);
+
+        var uri = uriBuilder.path("/api/banks/{id}").buildAndExpand(bank.getId()).toUri();
 
         BankResponse response = new BankResponse(bank);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(uri)
                 .body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Bank> findById(@PathVariable Long id) {
-        Bank found = bankService.findById(id);
+    public ResponseEntity<BankResponse> findById(@PathVariable Long id) {
+        Bank bank = bankService.findById(id);
 
-        return ResponseEntity.ok(found);
+        BankResponse response = new BankResponse(bank);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<Bank>> findAll() {
-        List<Bank> found = bankService.findAll();
+    public ResponseEntity<List<BankResponse>> findAll() {
+        List<Bank> banks = bankService.findAll();
 
-        return ResponseEntity.ok(found);
+        List<BankResponse> response = banks.stream()
+                .map(BankResponse::new)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")

@@ -10,22 +10,23 @@ import java.time.LocalDate;
 
 @Getter
 public class TransactionRequest {
-    @NotNull
+    @NotNull(message = "{bankAccountId.required}")
     private Long bankAccountId;
 
-    @NotNull
+    @NotNull(message = "{transactionTypeId.required}")
     private Long transactionTypeId;
 
-    @NotNull
+    @NotNull(message = "{transactionCategoryId.required}")
     private Long transactionCategoryId;
 
-    @NotBlank
+    @NotBlank(message = "{name.required}")
     private String name;
 
-    @NotNull
+    @NotNull(message = "{value.required}")
     private BigDecimal value;
 
-    @NotNull @PastOrPresent
+    @NotNull(message = "{date.required}")
+    @PastOrPresent(message = "{date.invalid}")
     private LocalDate date;
 
     private String description;

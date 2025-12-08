@@ -1,6 +1,5 @@
 package br.com.fiap.fintech.dto.bank;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 
@@ -8,6 +7,6 @@ import lombok.Getter;
 public class UpdateBankRequest {
     private String name;
 
-    @Pattern(regexp = "\\d{3}")
+    @Pattern(regexp = "\\d{3}", message = "{number.invalid}")
     private String number;
 }

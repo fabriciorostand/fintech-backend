@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +26,8 @@ public class TransactionTypeService {
     }
 
     public TransactionType findById(Long id) {
-        Optional<TransactionType> type = transactionTypeRepository.findById(id);
-
-        if (type.isPresent()) {
-            return type.get();
-        } else {
-            throw new RuntimeException("Tipo de transação não encontrado!");
-        }
+        return transactionTypeRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public List<TransactionType> findAll() {
@@ -43,20 +37,18 @@ public class TransactionTypeService {
     @Transactional
     public TransactionType update(Long id, UpdateTTRequest request) {
         TransactionType transactionType = transactionTypeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tipo de lançamento não encontrado"));
+                .orElseThrow(EntityNotFoundException::new);
 
         transactionType.updateInfo(request);
 
         return transactionType;
     }
 
+    @Transactional
     public void delete(Long id) {
-        Optional<TransactionType> type = transactionTypeRepository.findById(id);
+        transactionTypeRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (type.isPresent()) {
-            transactionTypeRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Erro ao excluir: tipo de transação não encontrado!");
-        }
+        transactionTypeRepository.deleteById(id);
     }
 }

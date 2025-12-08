@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,13 +27,15 @@ public class AuthController {
 
     // Responsável por cadastrar um usuário
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@RequestBody @Valid RegisterRequest request) {
+    public ResponseEntity<UserResponse> register(@RequestBody @Valid RegisterRequest request, UriComponentsBuilder uriBuilder) {
         User user = userService.register(request);
+
+        var uri = uriBuilder.path("/api/users/{id}").buildAndExpand(user.getId()).toUri();
 
         UserResponse response = new UserResponse(user);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(uri)
                 .body(response);
     }
 

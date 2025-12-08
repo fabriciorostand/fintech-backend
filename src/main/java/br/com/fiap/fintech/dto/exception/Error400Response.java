@@ -1,0 +1,16 @@
+package br.com.fiap.fintech.dto.exception;
+
+import lombok.Getter;
+import org.springframework.validation.FieldError;
+
+@Getter
+public class Error400Response {
+    private final String field;
+    private final String message;
+
+    // Construtor que converte FieldError para Error400Response
+    public Error400Response(FieldError error) {
+        this.field = error.getField();
+        this.message = error.getDefaultMessage();
+    }
+}

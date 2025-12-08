@@ -27,13 +27,8 @@ public class BankService {
     }
 
     public Bank findById(Long id) {
-        Optional<Bank> bank = bankRepository.findById(id);
-
-        if (bank.isPresent()) {
-            return bank.get();
-        } else {
-            throw new RuntimeException("Banco não encontrado!");
-        }
+        return bankRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public List<Bank> findAll() {
@@ -43,20 +38,18 @@ public class BankService {
     @Transactional
     public Bank update(Long id, UpdateBankRequest request) {
         Bank bank = bankRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Banco não encontrado"));
+                .orElseThrow(EntityNotFoundException::new);
 
         bank.updateInfo(request);
 
         return bank;
     }
 
+    @Transactional
     public void delete(Long id) {
-        Optional<Bank> bank = bankRepository.findById(id);
+        bankRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (bank.isPresent()) {
-            bankRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Erro ao excluir: banco não encontrado!");
-        }
+        bankRepository.deleteById(id);
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +27,8 @@ public class BankAccountService {
     }
 
     public BankAccount findById(Long id) {
-        Optional<BankAccount> account = bankAccountRepository.findById(id);
-
-        if (account.isPresent()) {
-            return account.get();
-        } else {
-            throw new RuntimeException("Conta bancária não encontrada!");
-        }
+        return bankAccountRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public List<BankAccount> findAll() {
@@ -48,7 +42,7 @@ public class BankAccountService {
     @Transactional
     public BankAccount update(Long id, UpdateBankAccountRequest request) {
         BankAccount bankAccount = bankAccountRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Conta bancária não encontrada"));
+                .orElseThrow(EntityNotFoundException::new);
 
         // Update only mutable fields
         bankAccount.updateInfo(request);
@@ -56,14 +50,12 @@ public class BankAccountService {
         return bankAccount;
     }
 
+    @Transactional
     public void delete(Long id) {
-        Optional<BankAccount> account = bankAccountRepository.findById(id);
+        bankAccountRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (account.isPresent()) {
-            bankAccountRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Erro ao excluir: conta bancária não encontrada!");
-        }
+        bankAccountRepository.deleteById(id);
     }
 
     @Transactional

@@ -6,9 +6,10 @@ import lombok.Getter;
 
 @Getter
 public class CreateBankRequest {
-    @NotBlank
+    @NotBlank(message = "{name.required}")
     private String name;
 
-    @Pattern(regexp = "\\d{3}") @NotBlank
+    @NotBlank(message = "{number.required}")
+    @Pattern(regexp = "\\d{3}", message = "{number.invalid}")
     private String number;
 }

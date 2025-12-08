@@ -16,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -29,13 +30,15 @@ public class BankAccountController {
 
     // Methods
     @PostMapping
-    public ResponseEntity<BankAccountResponse> register(@RequestBody @Valid CreateBankAccountRequest request) {
+    public ResponseEntity<BankAccountResponse> register(@RequestBody @Valid CreateBankAccountRequest request, UriComponentsBuilder uriBuilder) {
         BankAccount bankAccount = bankAccountService.register(request);
+
+        var uri = uriBuilder.path("/api/bank-accounts/{id}").buildAndExpand(bankAccount.getId()).toUri();
 
         BankAccountResponse response = new BankAccountResponse(bankAccount);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(uri)
                 .body(response);
     }
 

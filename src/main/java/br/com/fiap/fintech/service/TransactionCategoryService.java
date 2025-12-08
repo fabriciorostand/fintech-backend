@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +26,8 @@ public class TransactionCategoryService {
     }
 
     public TransactionCategory findById(Long id) {
-        Optional<TransactionCategory> category = transactionCategoryRepository.findById(id);
-
-        if (category.isPresent()) {
-            return category.get();
-        } else {
-            throw new RuntimeException("Categoria de transação não encontrada!");
-        }
+        return transactionCategoryRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public List<TransactionCategory> findAll() {
@@ -43,20 +37,18 @@ public class TransactionCategoryService {
     @Transactional
     public TransactionCategory update(Long id, UpdateTCRequest request) {
         TransactionCategory transactionCategory = transactionCategoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Categoria de lançamento não encontrada"));
+                .orElseThrow(EntityNotFoundException::new);
 
         transactionCategory.updateInfo(request);
 
         return transactionCategory;
     }
 
+    @Transactional
     public void delete(Long id) {
-        Optional<TransactionCategory> category = transactionCategoryRepository.findById(id);
+        transactionCategoryRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (category.isPresent()) {
-            transactionCategoryRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Erro ao excluir: categoria de transação não encontrada!");
-        }
+        transactionCategoryRepository.deleteById(id);
     }
 }

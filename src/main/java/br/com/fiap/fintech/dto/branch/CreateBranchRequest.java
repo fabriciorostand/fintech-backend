@@ -7,9 +7,10 @@ import lombok.Getter;
 
 @Getter
 public class CreateBranchRequest {
-    @NotNull
+    @NotNull(message = "{bankId.required}")
     private Long bankId;
 
-    @Pattern(regexp = "\\d{4,5}") @NotBlank
+    @NotBlank(message = "{number.required}")
+    @Pattern(regexp = "\\d{4,5}", message = "{number.invalid}")
     private String number;
 }
