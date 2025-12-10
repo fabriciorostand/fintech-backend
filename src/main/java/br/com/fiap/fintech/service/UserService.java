@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,15 +50,5 @@ public class UserService {
                 .orElseThrow(EntityNotFoundException::new);
 
         userRepository.delete(user);
-    }
-
-    public User authenticate(String email, String password) {
-        Optional<User> user = userRepository.findByEmail(email);
-
-        if (user.isPresent() && user.get().getPassword().equals(password)) {
-            return user.get();
-        } else {
-            throw new RuntimeException("Erro ao autenticar: email ou senha inválidos!");
-        }
     }
 }

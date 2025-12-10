@@ -4,7 +4,7 @@ Sistema de gerenciamento financeiro desenvolvido como projeto da FIAP.
 
 ## 📋 Descrição
 
-API REST para gestão financeira pessoal, permitindo controle de contas bancárias, transações e categorização de despesas. Desenvolvido com Spring Boot, Java 21 e Oracle Database, oferecendo endpoints para gerenciamento completo de usuários, bancos, agências e movimentações financeiras.
+API REST para gestão financeira pessoal, permitindo controle de contas bancárias, transações e categorização de despesas. Desenvolvido com Java 21, Spring Boot e Oracle Database, oferecendo endpoints para gerenciamento completo de usuários, bancos, agências e movimentações financeiras.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -13,6 +13,7 @@ API REST para gestão financeira pessoal, permitindo controle de contas bancári
 - **Spring Data JPA** - Persistência de dados
 - **Spring Web** - API REST
 - **Spring Validation** - Validação de dados
+- **Spring Security** - Segurança, autenticação e autorização de usuários
 - **Oracle JDBC Driver (ojdbc11)** - Conexão com Oracle Database
 - **Lombok** - Redução de código repetitivo
 - **Spring Boot DevTools** - Automatização da reinicialização da aplicação durante desenvolvimento
@@ -117,14 +118,16 @@ fintech-backend/
 │   │   │   ├── dto/                      # Data Transfer Objects
 │   │   │   ├── model/                    # Entidades JPA
 │   │   │   ├── repository/               # Repositórios JPA
+│   │   │   ├── security/                 # Configurações de Segurança
 │   │   │   ├── service/                  # Lógica de negócio
 │   │   │   └── FintechApplication.java
 │   │   └── resources/
-│   │       └── application.properties       # Configurações principais
+│   │       ├── application.properties        # Configurações principais
+│   │       └── ValidationMessages.properties # Mensagens de validação personalizadas
 │   └── test/                             # Testes unitários
-│       └── application-test.properties     # Configurações de teste              
-├── pom.xml                               # Configuração Maven
-└── README.md                             # Este arquivo
+│       └── application-test.properties       # Configurações de teste              
+├── pom.xml                             # Configuração Maven
+└── README.md                           # Este arquivo
 ```
 
 ## 🔧 Comandos Úteis
@@ -153,27 +156,57 @@ fintech-backend/
 
 A API está disponível no prefixo `/api` e oferece os seguintes recursos:
 
-- `/auth` - Gerenciamento de autenticação
-- `/users` - Gerenciamento de usuários
-- `/banks` - Gerenciamento de bancos
-- `/branches` - Gerenciamento de agências
-- `/bank-accounts` - Gerenciamento de contas bancárias
-- `/transactions` - Gerenciamento de transações
-- `/transaction-types` - Gerenciamento de tipos de transação
-- `/transaction-categories` - Gerenciamento de categorias de transação
+### Autenticação
+- `POST /api/auth/register` - Registrar novo usuário
+- `POST /api/auth/login` - Autenticar usuário
 
-## 🐛 Solução de Problemas
+### Usuários
+- `GET /api/users` - Listar todos os usuários
+- `GET /api/users/{id}` - Obter usuário por ID
+- `PUT /api/users/{id}` - Atualizar dados do usuário
+- `DELETE /api/users/{id}` - Deletar usuário
+- `GET /api/users/{id}/transactions` - Listar transações do usuário
+- `GET /api/users/{id}/bank-accounts` - Listar contas bancárias do usuário
 
-### Erro de conexão com o banco de dados
-- Verifique se as credenciais no `application.properties` estão corretas
-- Teste a conexão com o banco usando SQL Developer ou similar
+### Bancos
+- `POST /api/banks` - Criar novo banco
+- `GET /api/banks` - Listar todos os bancos
+- `GET /api/banks/{id}` - Obter banco por ID
+- `PUT /api/banks/{id}` - Atualizar dados do banco
+- `DELETE /api/banks/{id}` - Deletar banco
 
-### Erro "Java version"
-- Certifique-se de ter o JDK 21 instalado
-- Configure a variável de ambiente `JAVA_HOME` corretamente
+### Agências
+- `POST /api/branches` - Criar nova agência
+- `GET /api/branches` - Listar todas as agências
+- `GET /api/branches/{id}` - Obter agência por ID
+- `PUT /api/branches/{id}` - Atualizar dados da agência
+- `DELETE /api/branches/{id}` - Deletar agência
 
-### Porta 8080 já em uso
-- Adicione ao `application.properties`:
-  ```properties
-  server.port=8081
-  ```
+### Contas Bancárias
+- `POST /api/bank-accounts` - Criar nova conta bancária
+- `GET /api/bank-accounts` - Listar todas as contas bancárias
+- `GET /api/bank-accounts/{id}` - Obter conta bancária por ID
+- `PUT /api/bank-accounts/{id}` - Atualizar dados da conta bancária
+- `DELETE /api/bank-accounts/{id}` - Deletar conta bancária
+- `GET /api/bank-accounts/{id}/transactions` - Listar transações da conta
+
+### Transações
+- `POST /api/transactions` - Registrar nova transação
+- `GET /api/transactions` - Listar todas as transações
+- `GET /api/transactions/{id}` - Obter transação por ID
+- `PUT /api/transactions/{id}` - Atualizar dados da transação
+- `DELETE /api/transactions/{id}` - Deletar transação
+
+### Tipos de Transação
+- `POST /api/transaction-types` - Criar novo tipo de transação
+- `GET /api/transaction-types` - Listar todos os tipos de transação
+- `GET /api/transaction-types/{id}` - Obter tipo de transação por ID
+- `PUT /api/transaction-types/{id}` - Atualizar tipo de transação
+- `DELETE /api/transaction-types/{id}` - Deletar tipo de transação
+
+### Categorias de Transação
+- `POST /api/transaction-categories` - Criar nova categoria de transação
+- `GET /api/transaction-categories` - Listar todas as categorias de transação
+- `GET /api/transaction-categories/{id}` - Obter categoria de transação por ID
+- `PUT /api/transaction-categories/{id}` - Atualizar categoria de transação
+- `DELETE /api/transaction-categories/{id}` - Deletar categoria de transação
