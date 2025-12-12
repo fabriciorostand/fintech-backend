@@ -4,6 +4,8 @@ import br.com.fiap.fintech.dto.login.LoginRequest;
 import br.com.fiap.fintech.dto.register.RegisterRequest;
 import br.com.fiap.fintech.dto.user.UserResponse;
 import br.com.fiap.fintech.model.User;
+import br.com.fiap.fintech.security.TokenJWTResponse;
+import br.com.fiap.fintech.security.TokenService;
 import br.com.fiap.fintech.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class AuthController {
     // Attributes
     private final UserService userService;
     private final AuthenticationManager manager;
+    private final TokenService tokenService;
 
     // Methods
 
@@ -41,11 +44,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid LoginRequest request) {
-        var token = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+    public ResponseEntity<TokenJWTResponse> login(@RequestBody @Valid LoginRequest request) {
+        var authenticationToken = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+        var authentication = manager.authenticate(authenticationToken);
 
-        var authentication = manager.authenticate(token);
+        var tokenJWT = tokenService.generateToken((User) authentication.getPrincipal());
 
-        return ResponseEntity.ok().build();
+        TokenJWTResponse response = new TokenJWTResponse(tokenJWT);
+
+        return ResponseEntity.ok(response);
     }
 }
