@@ -46,7 +46,7 @@ Edite o arquivo `src/main/resources/application.properties` com suas credenciais
 
 ```properties
 spring.datasource.url=jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
-spring.datasource.username=SEU_RM
+spring.datasource.username=SEU_USUARIO
 spring.datasource.password=SUA_SENHA
 ```
 
